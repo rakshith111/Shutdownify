@@ -8,16 +8,21 @@ def submit():
         secondsms=int(minuits.get())
         final=hrsms*3600+minuitsms*60+secondsms
         system(f"shutdown -s -t {final}")
+        hrs.set(int(0))
+        minuits.set(int(0))
+        seconds.set(int(0)) 
+        cancel_btn.grid(row=2,sticky='e')
     except ValueError:
         hrs.set(int(0))
         minuits.set(int(0))
         seconds.set(int(0))
-    root.destroy()
-
-
+def cancel():
+    #if you want to cancel
+    system("shutdown -a")
 root=tk.Tk()
 root.title('SHUTDOWN')
-root.geometry("435x70")
+root.minsize(435, 70)
+root.maxsize(435, 70)
 hrs=tk.StringVar()
 minuits=tk.StringVar()
 seconds=tk.StringVar()
@@ -31,13 +36,13 @@ min_entry = tk.Entry(root,textvariable = minuits, font=('calibre',10,'normal'))
 sec_label = tk.Label(root, text = 'Sec', font=('calibre',10, 'bold'))
 sec_entry = tk.Entry(root,textvariable = seconds, font=('calibre',10,'normal'))
 sub_btn=tk.Button(root,text = 'Submit', command = submit)
+cancel_btn=tk.Button(root,text="Cancel",command=cancel)
 Hrs_label.grid(row=0,column=0)
 Hrs_entry.grid(row=1,column=0)
 min_label.grid(row=0,column=1)
 min_entry.grid(row=1,column=1)
 sec_label.grid(row=0,column=3)
 sec_entry.grid(row=1,column=3)
-sub_btn.grid(row=2,sticky='e')
-
+sub_btn.grid(row=2,sticky='w')
 
 root.mainloop()
