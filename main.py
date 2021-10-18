@@ -19,6 +19,7 @@ def submit():
 def cancel():
     #if you want to cancel
     system("shutdown -a")
+    root.destroy()
 root=tk.Tk()
 root.title('SHUTDOWN')
 root.minsize(435, 70)
