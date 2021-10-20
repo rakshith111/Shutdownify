@@ -6,12 +6,13 @@ def submit():
         hrsms=int(hrs.get())
         minuitsms=int(minuits.get())
         secondsms=int(minuits.get())
-        final=hrsms*3600+minuitsms*60+secondsms
-        system(f"shutdown -s -t {final}")
-        hrs.set(int(0))
-        minuits.set(int(0))
-        seconds.set(int(0)) 
-        cancel_btn.grid(row=2,sticky='e')
+        while((hrsms and minuitsms and secondsms) != 0):
+            final=hrsms*3600+minuitsms*60+secondsms
+            system(f"shutdown -s -t {final}")
+            hrs.set(int(0))
+            minuits.set(int(0))
+            seconds.set(int(0)) 
+            cancel_btn.grid(row=2,sticky='e')
     except ValueError:
         hrs.set(int(0))
         minuits.set(int(0))
