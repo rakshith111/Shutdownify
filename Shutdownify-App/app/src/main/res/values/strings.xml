@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">SHUTDOWNIFY</string>
+    <string name="send">SEND</string>
+
+    <string name="inputip">inputip</string>
+    <string name="get_req">GET REQ</string>
+    <string name="http_machine_ip_port">http://machine.ip:PORT</string>
+    <string name="demomode">Demo Mode</string>
+    <string name="check">CHECK</string>
+    <string name="hh_mm_ss">HH:MM:SS</string>
+    <string name="http_192_168_1_2_5000">http://192.168.1.2:5000</string>
+    <string name="shutdown">SHUTDOWN</string>
+    <string name="device_is_offline">DEVICE IS OFFLINE</string>
+    <string name="cancel">cancel</string>
+</resources>

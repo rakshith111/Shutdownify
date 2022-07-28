@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.Shutdownify.app.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/ip_input_edittext"
+            android:layout_width="270dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:ems="10"
+            android:hint="@string/http_machine_ip_port"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:text="@string/http_192_168_1_2_5000"
+            android:textColorHint="#757575" />
+
+        <CheckBox
+            android:id="@+id/demo_checkBox"
+            android:layout_width="110dp"
+            android:layout_height="48dp"
+            android:layout_below="@id/ip_input_edittext"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/demomode" />
+
+        <Button
+            android:id="@+id/state_check_btn"
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+            android:layout_below="@id/ip_input_edittext"
+            android:layout_marginStart="240dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/check" />
+
+        <EditText
+            android:id="@+id/edit_Time"
+            android:layout_width="270dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/state_view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="20dp"
+            android:autofillHints="HH:MM:SS"
+            android:ems="10"
+            android:hint="@string/hh_mm_ss"
+            android:inputType="time"
+            android:minHeight="48dp"
+            android:textColorHint="#757575" />
+
+
+        <TextView
+            android:id="@+id/state_view"
+            android:layout_width="270dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/state_check_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/red"
+            android:gravity="center"
+            android:text="@string/device_is_offline"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/shutdown_btn"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/edit_Time"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="20dp"
+            android:enabled="false"
+            android:text="@string/shutdown" />
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/edit_Time"
+            android:layout_marginStart="210dp"
+            android:layout_marginTop="20dp"
+            android:enabled="false"
+            android:text="@string/cancel" />
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

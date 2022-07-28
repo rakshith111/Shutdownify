@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="http_machine_ip_port">http://machine.ip:PORT</string>
+    <string name="demomode">DemoMode</string>
+    <string name="check">CHECK</string>
+    <string name="device_is_offline">DEVICE IS OFFLINE</string>
+    <string name="cancle">Cancle</string>
+</resources>
