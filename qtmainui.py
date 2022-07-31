@@ -18,7 +18,8 @@ class Ui_Dialog(object):
         self.horizontalLayoutWidget = QtWidgets.QWidget(Dialog)
         self.horizontalLayoutWidget.setGeometry(QtCore.QRect(10, 50, 471, 41))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
+        self.horizontalLayout = QtWidgets.QHBoxLayout(
+            self.horizontalLayoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.hours_label = QtWidgets.QTextEdit(self.horizontalLayoutWidget)
@@ -40,9 +41,11 @@ class Ui_Dialog(object):
         self.hours_label_2.setGeometry(QtCore.QRect(30, 20, 81, 31))
         self.hours_label_2.setObjectName("hours_label_2")
         self.horizontalLayoutWidget_2 = QtWidgets.QWidget(Dialog)
-        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(60, 100, 371, 71))
+        self.horizontalLayoutWidget_2.setGeometry(
+            QtCore.QRect(60, 100, 371, 71))
         self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_2)
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(
+            self.horizontalLayoutWidget_2)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.clear_btn_2 = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
@@ -67,13 +70,3 @@ class Ui_Dialog(object):
         self.clear_btn_2.setText(_translate("Dialog", "Init Server"))
         self.clear_btn.setText(_translate("Dialog", "Clear"))
         self.submit_btn.setText(_translate("Dialog", "Submit"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())
