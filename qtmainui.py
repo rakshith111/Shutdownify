@@ -91,8 +91,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        # add listeners to buttons and fields
         self.ui.clear_btn.clicked.connect(self.clear_fields)
         self.ui.submit_btn.installEventFilter(self)
+        self.ui.extend_btn.installEventFilter(self)
         self.ui.cancel_btn.installEventFilter(self)
         self.ui.hours_field.installEventFilter(self)
         self.ui.minuits_field.installEventFilter(self)
@@ -114,7 +116,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.hrs_val = int(self.ui.hours_field.toPlainText())
             self.min_val = int(self.ui.minuits_field.toPlainText())
             self.sec_val = int(self.ui.seconds_field.toPlainText())
-            if (self.sec_val >= 3 or self.min_val > 0 or self.hrs_val > 0) and source is self.ui.submit_btn:
+            if (self.sec_val >= 3 or self.min_val > 0 or self.hrs_val > 0) and source is self.ui.submit_btn or source is self.ui.extend_btn:
                 self.call.submit(self.hrs_val, self.min_val, self.sec_val)
             if source is self.ui.cancel_btn:
                 self.call.cancel()
