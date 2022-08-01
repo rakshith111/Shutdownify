@@ -11,6 +11,8 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from callbacks import callback
+
 
 class Ui_MainWindow(object):
 
@@ -79,38 +81,72 @@ class Ui_MainWindow(object):
 
 
 class MainWindow(QtWidgets.QMainWindow):
+
     def __init__(self, parent=None):
+        self.call = callback()
         super(MainWindow, self).__init__(parent=parent)
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.ui.clear_btn.clicked.connect(self.clear_fields)
+        self.ui.submit_btn.installEventFilter(self)
 
         self.ui.hours_field.installEventFilter(self)
         self.ui.minuits_field.installEventFilter(self)
         self.ui.seconds_field.installEventFilter(self)
 
+    def clear_fields(self):
+        self.ui.hours_field.setPlainText("0")
+        self.ui.minuits_field.setPlainText("0")
+        self.ui.seconds_field.setPlainText("0")
+
+    # EVENT FILTER
+    # NOT RECOMMENDED in general to use the setplaintext function in a event filter directly  as it will cause unknown errors , clear references must be made in future versions
     def eventFilter(self, source, event):
 
-        if event.type() == QtCore.QEvent.Enter:
-            if source.toPlainText() == '0':
-                if source is self.ui.hours_field:
-                    self.ui.hours_field.clear()
-                elif source is self.ui.minuits_field:
-                    self.ui.minuits_field.clear()
-                elif source is self.ui.seconds_field:
-                    self.ui.seconds_field.clear()
+        # Alternative to the click.connect()
+        # handles mousevents
 
+        if event.type() == QtCore.QEvent.MouseButtonPress:
+            self.hrs_val = int(self.ui.hours_field.toPlainText())
+            self.min_val = int(self.ui.minuits_field.toPlainText())
+            self.sec_val = int(self.ui.seconds_field.toPlainText())
+            if (self.sec_val >= 3 or self.min_val > 0 or self.hrs_val > 0) and source is self.ui.submit_btn:
+                self.call.submit(self.hrs_val, self.min_val, self.sec_val)
+
+        # Clears the field value  if the user enters the fields
+        if event.type() == QtCore.QEvent.Enter:
+            if type(source) is QtWidgets.QPlainTextEdit:
+                if source.toPlainText() == '0':
+                    source.setPlainText("")
+                    return True
+        # Sets the field value to 0 if the user leaves the fields
+        if event.type() == QtCore.QEvent.CursorChange:
+            print(source.objectName())
         if event.type() == QtCore.QEvent.Leave:
 
-            if(source.toPlainText() == '' or any(c.isalpha() for c in source.toPlainText())):
-                if source is self.ui.hours_field:
-                    self.ui.hours_field.setPlainText('0')
-                elif source is self.ui.minuits_field:
-                    self.ui.minuits_field.setPlainText('0')
-                elif source is self.ui.seconds_field:
-                    self.ui.seconds_field.setPlainText('0')
+            if(type(source) is QtWidgets.QPlainTextEdit):
+                # if the user enters a letter in the hours field or if its empty
+                if(any(c.isalpha() for c in self.ui.hours_field.toPlainText()) or self.ui.hours_field.toPlainText() == ''):
+                    self.ui.hours_field.setPlainText("0")
+                if(any(c.isalpha() for c in self.ui.minuits_field.toPlainText()) or self.ui.minuits_field.toPlainText() == ''):
+                    self.ui.minuits_field.setPlainText("0")
+                if(any(c.isalpha() for c in self.ui.seconds_field.toPlainText()) or self.ui.seconds_field.toPlainText() == ''):
+                    self.ui.seconds_field.setPlainText("0")
+
         return QtWidgets.QWidget.eventFilter(self, source, event)
 
+
+# for colors
+# QLineEdit
+# {
+#     background-color: black
+# }
+
+# QLineEdit[text = ""]
+# {
+#     background-color: red
+# }
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
