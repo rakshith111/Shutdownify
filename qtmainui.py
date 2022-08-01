@@ -9,108 +9,111 @@
 
 
 import sys
-from unicodedata import name
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import *
-from main import callbacks
-
-funcalls = callbacks()
 
 
-class MainWindow(QMainWindow):
+class Ui_MainWindow(object):
 
-    def __init__(self):
-        super().__init__()
-        self.horizontalLayoutWidget = QtWidgets.QWidget(Dialog)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(10, 50, 471, 41))
-
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(702, 218)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(30, 30, 631, 31))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
-        self.horizontaltimelayout = QtWidgets.QHBoxLayout(
+        self.input_layout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
+        self.input_layout.setContentsMargins(0, 0, 0, 0)
+        self.input_layout.setObjectName("input_layout")
+        self.hours_field = QtWidgets.QPlainTextEdit(
             self.horizontalLayoutWidget)
-        self.horizontaltimelayout.setContentsMargins(0, 0, 0, 0)
-        self.horizontaltimelayout.setObjectName("horizontalLayout")
-        self.hour_input = QtWidgets.QLineEdit(self.horizontalLayoutWidget)
-        self.hour_input.setObjectName("hour_input")
-        self.horizontaltimelayout.addWidget(self.hour_input)
-        self.minutes_input = QtWidgets.QLineEdit(self.horizontalLayoutWidget)
-        self.minutes_input.setObjectName("minutes_input")
-        self.horizontaltimelayout.addWidget(self.minutes_input)
-        self.seconds_input = QtWidgets.QLineEdit(self.horizontalLayoutWidget)
-        self.seconds_input.setObjectName("seconds_input")
-        self.horizontaltimelayout.addWidget(self.seconds_input)
-        self.seconds_input.setText("0")
-        self.minutes_input.setText("0")
-        self.hour_input.setText("0")
-        self.hour_input.installEventFilter(self)
-        self.minutes_input.installEventFilter(self)
-        self.seconds_input.installEventFilter(self)
-
-    def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(501, 184)
-
-        self.minutes_label = QtWidgets.QLabel(Dialog)
-        self.minutes_label.setGeometry(QtCore.QRect(190, 20, 91, 31))
-        self.minutes_label.setObjectName("minutes_label")
-        self.seconds_label = QtWidgets.QLabel(Dialog)
-        self.seconds_label.setGeometry(QtCore.QRect(350, 20, 91, 31))
-        self.seconds_label.setObjectName("seconds_label")
-        self.hours_label = QtWidgets.QLabel(Dialog)
-        self.hours_label.setGeometry(QtCore.QRect(30, 20, 81, 31))
-        self.hours_label.setObjectName("hours_label")
-
-        self.horizontalbtnlayout = QtWidgets.QWidget(Dialog)
-        self.horizontalbtnlayout.setGeometry(
-            QtCore.QRect(60, 100, 371, 71))
-        self.horizontalbtnlayout.setObjectName("horizontalLayoutWidget_2")
-        self.sublayout = QtWidgets.QHBoxLayout(
-            self.horizontalbtnlayout)
-        self.sublayout.setContentsMargins(0, 0, 0, 0)
-        self.sublayout.setObjectName("horizontalLayout_2")
-        self.init_svr = QtWidgets.QPushButton(self.horizontalbtnlayout)
-        self.init_svr.setObjectName("init_svr")
-        self.sublayout.addWidget(self.init_svr)
-        self.clear_btn = QtWidgets.QPushButton(self.horizontalbtnlayout)
+        self.hours_field.setObjectName("hours_field")
+        self.input_layout.addWidget(self.hours_field)
+        self.minuits_field = QtWidgets.QPlainTextEdit(
+            self.horizontalLayoutWidget)
+        self.minuits_field.setObjectName("minuits_field")
+        self.input_layout.addWidget(self.minuits_field)
+        self.seconds_field = QtWidgets.QPlainTextEdit(
+            self.horizontalLayoutWidget)
+        self.seconds_field.setObjectName("seconds_field")
+        self.input_layout.addWidget(self.seconds_field)
+        self.horizontalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
+        self.horizontalLayoutWidget_2.setGeometry(
+            QtCore.QRect(80, 60, 531, 81))
+        self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
+        self.button_layout = QtWidgets.QHBoxLayout(
+            self.horizontalLayoutWidget_2)
+        self.button_layout.setContentsMargins(0, 0, 0, 0)
+        self.button_layout.setObjectName("button_layout")
+        self.init_server_btn = QtWidgets.QPushButton(
+            self.horizontalLayoutWidget_2)
+        self.init_server_btn.setObjectName("init_server_btn")
+        self.button_layout.addWidget(self.init_server_btn)
+        self.clear_btn = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         self.clear_btn.setObjectName("clear_btn")
-        self.clear_btn.clicked.connect(lambda: self.clear())
-        self.sublayout.addWidget(self.clear_btn)
-        self.submit_btn = QtWidgets.QPushButton(self.horizontalbtnlayout)
+        self.button_layout.addWidget(self.clear_btn)
+        self.submit_btn = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         self.submit_btn.setObjectName("submit_btn")
-        self.sublayout.addWidget(self.submit_btn)
-        self.retranslateUi(Dialog)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        self.button_layout.addWidget(self.submit_btn)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 702, 21))
+        self.menubar.setObjectName("menubar")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "ShutDownify"))
+        self.hours_field.setPlainText(_translate("MainWindow", "0"))
+        self.minuits_field.setPlainText(_translate("MainWindow", "0"))
+        self.seconds_field.setPlainText(_translate("MainWindow", "0"))
+        self.init_server_btn.setText(_translate("MainWindow", "Init Server"))
+        self.clear_btn.setText(_translate("MainWindow", "Clear"))
+        self.submit_btn.setText(_translate("MainWindow", "Submit"))
+
+
+class MainWindow(QtWidgets.QMainWindow):
+    def __init__(self, parent=None):
+        super(MainWindow, self).__init__(parent=parent)
+
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+
+        self.ui.hours_field.installEventFilter(self)
+        self.ui.minuits_field.installEventFilter(self)
+        self.ui.seconds_field.installEventFilter(self)
 
     def eventFilter(self, source, event):
+
         if event.type() == QtCore.QEvent.Enter:
-            if source == self.hour_input:
-                self.hour_input.clear()
-            elif source is self.minutes_input:
-                self.minutes_input.clear()
-            elif source is self.seconds_input:
-                self.seconds_input.clear()
+            if source.toPlainText() == '0':
+                if source is self.ui.hours_field:
+                    self.ui.hours_field.clear()
+                elif source is self.ui.minuits_field:
+                    self.ui.minuits_field.clear()
+                elif source is self.ui.seconds_field:
+                    self.ui.seconds_field.clear()
+
+        if event.type() == QtCore.QEvent.Leave:
+
+            if(source.toPlainText() == '' or any(c.isalpha() for c in source.toPlainText())):
+                if source is self.ui.hours_field:
+                    self.ui.hours_field.setPlainText('0')
+                elif source is self.ui.minuits_field:
+                    self.ui.minuits_field.setPlainText('0')
+                elif source is self.ui.seconds_field:
+                    self.ui.seconds_field.setPlainText('0')
         return QtWidgets.QWidget.eventFilter(self, source, event)
-
-    def clear(self):
-        self.hour_input.clear()
-        self.minutes_input.clear()
-        self.seconds_input.clear()
-
-    def retranslateUi(self, Dialog):
-        _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.minutes_label.setText(_translate("Dialog", "Minutes"))
-        self.seconds_label.setText(_translate("Dialog", "Seconds"))
-        self.hours_label.setText(_translate("Dialog", "Hours"))
-        self.init_svr.setText(_translate("Dialog", "Init Server"))
-        self.clear_btn.setText(_translate("Dialog", "Clear"))
-        self.submit_btn.setText(_translate("Dialog", "Submit"))
 
 
 if __name__ == "__main__":
-    import sys
     app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = MainWindow()
-    ui.setupUi(Dialog)
-    Dialog.show()
+    w = MainWindow()
+    w.show()
     sys.exit(app.exec_())
