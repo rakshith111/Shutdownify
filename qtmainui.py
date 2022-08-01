@@ -18,7 +18,7 @@ class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(702, 218)
+        MainWindow.setFixedSize(700, 180)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
@@ -41,7 +41,7 @@ class Ui_MainWindow(object):
         self.input_layout.addWidget(self.seconds_field)
         self.horizontalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
         self.horizontalLayoutWidget_2.setGeometry(
-            QtCore.QRect(80, 60, 531, 81))
+            QtCore.QRect(80, 60, 530, 81))
         self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
         self.button_layout = QtWidgets.QHBoxLayout(
             self.horizontalLayoutWidget_2)
@@ -60,13 +60,6 @@ class Ui_MainWindow(object):
         self.submit_btn.setObjectName("submit_btn")
         self.button_layout.addWidget(self.submit_btn)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 702, 21))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -91,6 +84,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.setWindowIcon(QtGui.QIcon('shutdown.ico'))
+        self.setWindowFlag(QtCore.Qt.WindowMaximizeButtonHint, False)
         # add listeners to buttons and fields
         self.ui.clear_btn.clicked.connect(self.clear_fields)
         self.ui.submit_btn.installEventFilter(self)
