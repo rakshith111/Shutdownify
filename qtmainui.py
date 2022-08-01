@@ -53,9 +53,9 @@ class Ui_MainWindow(object):
         self.extend_btn = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         self.extend_btn.setObjectName("extend_btn")
         self.button_layout.addWidget(self.extend_btn)
-        self.cancle_btn = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
-        self.cancle_btn.setObjectName("cancle_btn")
-        self.button_layout.addWidget(self.cancle_btn)
+        self.cancel_btn = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
+        self.cancel_btn.setObjectName("cancel_btn")
+        self.button_layout.addWidget(self.cancel_btn)
         self.submit_btn = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         self.submit_btn.setObjectName("submit_btn")
         self.button_layout.addWidget(self.submit_btn)
@@ -79,7 +79,7 @@ class Ui_MainWindow(object):
         self.seconds_field.setPlainText(_translate("MainWindow", "0"))
         self.clear_btn.setText(_translate("MainWindow", "Clear"))
         self.extend_btn.setText(_translate("MainWindow", "Extend"))
-        self.cancle_btn.setText(_translate("MainWindow", "Cancle"))
+        self.cancel_btn.setText(_translate("MainWindow", "Cancel"))
         self.submit_btn.setText(_translate("MainWindow", "Submit"))
 
 
@@ -93,7 +93,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.ui.clear_btn.clicked.connect(self.clear_fields)
         self.ui.submit_btn.installEventFilter(self)
-        self.ui.cancle_btn.installEventFilter(self)
+        self.ui.cancel_btn.installEventFilter(self)
         self.ui.hours_field.installEventFilter(self)
         self.ui.minuits_field.installEventFilter(self)
         self.ui.seconds_field.installEventFilter(self)
@@ -116,7 +116,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.sec_val = int(self.ui.seconds_field.toPlainText())
             if (self.sec_val >= 3 or self.min_val > 0 or self.hrs_val > 0) and source is self.ui.submit_btn:
                 self.call.submit(self.hrs_val, self.min_val, self.sec_val)
-            if source is self.ui.cancle_btn:
+            if source is self.ui.cancel_btn:
                 self.call.cancel()
 
         # Clears the field value  if the user enters the fields
