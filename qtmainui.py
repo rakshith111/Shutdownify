@@ -22,7 +22,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(30, 30, 631, 31))
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(30, 30, 641, 31))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
         self.input_layout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
         self.input_layout.setContentsMargins(0, 0, 0, 0)
@@ -47,13 +47,15 @@ class Ui_MainWindow(object):
             self.horizontalLayoutWidget_2)
         self.button_layout.setContentsMargins(0, 0, 0, 0)
         self.button_layout.setObjectName("button_layout")
-        self.init_server_btn = QtWidgets.QPushButton(
-            self.horizontalLayoutWidget_2)
-        self.init_server_btn.setObjectName("init_server_btn")
-        self.button_layout.addWidget(self.init_server_btn)
         self.clear_btn = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         self.clear_btn.setObjectName("clear_btn")
         self.button_layout.addWidget(self.clear_btn)
+        self.extend_btn = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
+        self.extend_btn.setObjectName("extend_btn")
+        self.button_layout.addWidget(self.extend_btn)
+        self.cancle_btn = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
+        self.cancle_btn.setObjectName("cancle_btn")
+        self.button_layout.addWidget(self.cancle_btn)
         self.submit_btn = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         self.submit_btn.setObjectName("submit_btn")
         self.button_layout.addWidget(self.submit_btn)
@@ -75,8 +77,9 @@ class Ui_MainWindow(object):
         self.hours_field.setPlainText(_translate("MainWindow", "0"))
         self.minuits_field.setPlainText(_translate("MainWindow", "0"))
         self.seconds_field.setPlainText(_translate("MainWindow", "0"))
-        self.init_server_btn.setText(_translate("MainWindow", "Init Server"))
         self.clear_btn.setText(_translate("MainWindow", "Clear"))
+        self.extend_btn.setText(_translate("MainWindow", "Extend"))
+        self.cancle_btn.setText(_translate("MainWindow", "Cancle"))
         self.submit_btn.setText(_translate("MainWindow", "Submit"))
 
 
@@ -90,7 +93,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.ui.clear_btn.clicked.connect(self.clear_fields)
         self.ui.submit_btn.installEventFilter(self)
-
+        self.ui.cancle_btn.installEventFilter(self)
         self.ui.hours_field.installEventFilter(self)
         self.ui.minuits_field.installEventFilter(self)
         self.ui.seconds_field.installEventFilter(self)
@@ -113,6 +116,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.sec_val = int(self.ui.seconds_field.toPlainText())
             if (self.sec_val >= 3 or self.min_val > 0 or self.hrs_val > 0) and source is self.ui.submit_btn:
                 self.call.submit(self.hrs_val, self.min_val, self.sec_val)
+            if source is self.ui.cancle_btn:
+                self.call.cancel()
 
         # Clears the field value  if the user enters the fields
         if event.type() == QtCore.QEvent.Enter:
