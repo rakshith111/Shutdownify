@@ -83,7 +83,7 @@ class Ui_MainWindow(object):
         self.seconds_field.setPlainText(_translate("MainWindow", "0"))
         self.clear_btn.setText(_translate("MainWindow", "Clear"))
         self.extend_btn.setText(_translate("MainWindow", "Extend"))
-        self.cancel_btn.setText(_translate("MainWindow", "cancel"))
+        self.cancel_btn.setText(_translate("MainWindow", "Cancel"))
         self.submit_btn.setText(_translate("MainWindow", "Submit"))
         self.hrs_label.setText(_translate("MainWindow", "Hours"))
         self.minutes_label.setText(_translate("MainWindow", "Minutes"))
@@ -122,16 +122,16 @@ class MainWindow(QtWidgets.QMainWindow):
         # handles mousevents
 
         if event.type() == QtCore.QEvent.MouseButtonPress:
+            self.msg = QMessageBox()
+            self.msg.setIcon(QMessageBox.Critical)
+            self.msg.setText("Error")
+            self.msg.setWindowTitle("Error")
             try:
                 self.hrs_val = int(self.ui.hours_field.toPlainText())
                 self.min_val = int(self.ui.minuits_field.toPlainText())
                 self.sec_val = int(self.ui.seconds_field.toPlainText())
             except ValueError:
-                self.msg = QMessageBox()
-                self.msg.setIcon(QMessageBox.Critical)
-                self.msg.setText("Error")
                 self.msg.setInformativeText('Characters are not allowed')
-                self.msg.setWindowTitle("Error")
                 self.msg.exec_()
                 self.hrs_val = 0
                 self.min_val = 0
@@ -139,8 +139,11 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.ui.hours_field.setPlainText("0")
                 self.ui.minuits_field.setPlainText("0")
                 self.ui.seconds_field.setPlainText("0")
-            if (self.sec_val >= 3 or self.min_val > 0 or self.hrs_val > 0) and source is self.ui.submit_btn or source is self.ui.extend_btn:
+            if (self.sec_val >= 3 or self.min_val > 0 or self.hrs_val > 0) and (source is self.ui.submit_btn or source is self.ui.extend_btn):
                 self.call.submit(self.hrs_val, self.min_val, self.sec_val)
+            if (self.sec_val == 0 or self.min_val == 0 or self.hrs_val == 0) and (source is self.ui.submit_btn or source is self.ui.extend_btn):
+                self.msg.setInformativeText('Enter a value greater than 0')
+                self.msg.exec_()
             if source is self.ui.cancel_btn:
                 self.call.cancel()
 
