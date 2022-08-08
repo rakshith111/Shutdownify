@@ -10,15 +10,14 @@
 
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from PyQt5.QtWidgets import QMessageBox
 from callbacks import callback
 
 
 class Ui_MainWindow(object):
-
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.setFixedSize(700, 180)
+        MainWindow.resize(700, 200)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
@@ -41,7 +40,7 @@ class Ui_MainWindow(object):
         self.input_layout.addWidget(self.seconds_field)
         self.horizontalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
         self.horizontalLayoutWidget_2.setGeometry(
-            QtCore.QRect(80, 60, 530, 81))
+            QtCore.QRect(80, 60, 531, 81))
         self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
         self.button_layout = QtWidgets.QHBoxLayout(
             self.horizontalLayoutWidget_2)
@@ -59,7 +58,19 @@ class Ui_MainWindow(object):
         self.submit_btn = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         self.submit_btn.setObjectName("submit_btn")
         self.button_layout.addWidget(self.submit_btn)
+        self.hrs_label = QtWidgets.QLabel(self.centralwidget)
+        self.hrs_label.setGeometry(QtCore.QRect(30, 10, 47, 13))
+        self.hrs_label.setObjectName("hrs_label")
+        self.minutes_label = QtWidgets.QLabel(self.centralwidget)
+        self.minutes_label.setGeometry(QtCore.QRect(240, 10, 47, 13))
+        self.minutes_label.setObjectName("minutes_label")
+        self.seconds_label = QtWidgets.QLabel(self.centralwidget)
+        self.seconds_label.setGeometry(QtCore.QRect(460, 10, 47, 13))
+        self.seconds_label.setObjectName("seconds_label")
         MainWindow.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -72,8 +83,11 @@ class Ui_MainWindow(object):
         self.seconds_field.setPlainText(_translate("MainWindow", "0"))
         self.clear_btn.setText(_translate("MainWindow", "Clear"))
         self.extend_btn.setText(_translate("MainWindow", "Extend"))
-        self.cancel_btn.setText(_translate("MainWindow", "Cancel"))
+        self.cancel_btn.setText(_translate("MainWindow", "cancel"))
         self.submit_btn.setText(_translate("MainWindow", "Submit"))
+        self.hrs_label.setText(_translate("MainWindow", "Hours"))
+        self.minutes_label.setText(_translate("MainWindow", "Minutes"))
+        self.seconds_label.setText(_translate("MainWindow", "Seconds"))
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -108,9 +122,23 @@ class MainWindow(QtWidgets.QMainWindow):
         # handles mousevents
 
         if event.type() == QtCore.QEvent.MouseButtonPress:
-            self.hrs_val = int(self.ui.hours_field.toPlainText())
-            self.min_val = int(self.ui.minuits_field.toPlainText())
-            self.sec_val = int(self.ui.seconds_field.toPlainText())
+            try:
+                self.hrs_val = int(self.ui.hours_field.toPlainText())
+                self.min_val = int(self.ui.minuits_field.toPlainText())
+                self.sec_val = int(self.ui.seconds_field.toPlainText())
+            except ValueError:
+                self.msg = QMessageBox()
+                self.msg.setIcon(QMessageBox.Critical)
+                self.msg.setText("Error")
+                self.msg.setInformativeText('Characters are not allowed')
+                self.msg.setWindowTitle("Error")
+                self.msg.exec_()
+                self.hrs_val = 0
+                self.min_val = 0
+                self.sec_val = 0
+                self.ui.hours_field.setPlainText("0")
+                self.ui.minuits_field.setPlainText("0")
+                self.ui.seconds_field.setPlainText("0")
             if (self.sec_val >= 3 or self.min_val > 0 or self.hrs_val > 0) and source is self.ui.submit_btn or source is self.ui.extend_btn:
                 self.call.submit(self.hrs_val, self.min_val, self.sec_val)
             if source is self.ui.cancel_btn:
