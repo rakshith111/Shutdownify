@@ -9,7 +9,7 @@
 - If you want to cancel the set timer it can be done by clicking on the cancel button
 - Once the timer is set it can be extended 
   - Two modes are available
-    - Direct mode : Shuts down the pc for the chosen quicky 
+    - Direct mode : Shuts down the pc for the chosen time immediately  
     - Manual mode : Adds the selected time to the input fields
   
 
