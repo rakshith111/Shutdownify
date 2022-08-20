@@ -130,20 +130,29 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.hrs_val = int(self.ui.hours_field.toPlainText())
                 self.min_val = int(self.ui.minuits_field.toPlainText())
                 self.sec_val = int(self.ui.seconds_field.toPlainText())
+                self.finalseconds = self.hrs_val*3600+self.min_val*60+self.sec_val
             except ValueError:
                 self.msg.setInformativeText('Characters are not allowed')
                 self.msg.exec_()
                 self.hrs_val = 0
                 self.min_val = 0
                 self.sec_val = 0
+                self.finalseconds = 1
                 self.ui.hours_field.setPlainText("0")
                 self.ui.minuits_field.setPlainText("0")
                 self.ui.seconds_field.setPlainText("0")
-            if (self.sec_val >= 3 or self.min_val > 0 or self.hrs_val > 0) and (source is self.ui.submit_btn or source is self.ui.extend_btn):
-                self.call.submit(self.hrs_val, self.min_val, self.sec_val)
-            if (self.sec_val == 0 or self.min_val == 0 or self.hrs_val == 0) and (source is self.ui.submit_btn or source is self.ui.extend_btn):
+            if (self.finalseconds < 10):
                 self.msg.setInformativeText('Enter a value greater than 0')
                 self.msg.exec_()
+            elif(source is self.ui.submit_btn):
+                self.call.submit(self.finalseconds)
+            elif source is self.ui.extend_btn:
+                self.extendstatus = self.call.extend(
+                    self.finalseconds)
+                if(not self.extendstatus):
+                    self.msg.setInformativeText('Start the timer first')
+                    self.msg.exec_()
+
             if source is self.ui.cancel_btn:
                 self.call.cancel()
 
@@ -153,6 +162,13 @@ class MainWindow(QtWidgets.QMainWindow):
                 if source.toPlainText() == '0':
                     source.setPlainText("")
                     return True
+            if source is self.ui.submit_btn or source is self.ui.extend_btn:
+                if(self.ui.hours_field.toPlainText() == ''):
+                    self.ui.hours_field.setPlainText("0")
+                if(self.ui.minuits_field.toPlainText() == ''):
+                    self.ui.minuits_field.setPlainText("0")
+                if(self.ui.seconds_field.toPlainText() == ''):
+                    self.ui.seconds_field.setPlainText("0")
         # Sets the field value to 0 if the user leaves the fields
         if event.type() == QtCore.QEvent.CursorChange:
             print(source.objectName())
@@ -160,11 +176,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
             if(type(source) is QtWidgets.QPlainTextEdit):
                 # if the user enters a letter in the hours field or if its empty
-                if(any(c.isalpha() for c in self.ui.hours_field.toPlainText()) or self.ui.hours_field.toPlainText() == ''):
+                if(any(c.isalpha() for c in self.ui.hours_field.toPlainText())):
                     self.ui.hours_field.setPlainText("0")
-                if(any(c.isalpha() for c in self.ui.minuits_field.toPlainText()) or self.ui.minuits_field.toPlainText() == ''):
+                if(any(c.isalpha() for c in self.ui.minuits_field.toPlainText())):
                     self.ui.minuits_field.setPlainText("0")
-                if(any(c.isalpha() for c in self.ui.seconds_field.toPlainText()) or self.ui.seconds_field.toPlainText() == ''):
+                if(any(c.isalpha() for c in self.ui.seconds_field.toPlainText())):
                     self.ui.seconds_field.setPlainText("0")
 
         return QtWidgets.QWidget.eventFilter(self, source, event)
