@@ -1,14 +1,17 @@
 # Shutdownify
 
-## This is an app developed for windows .You can time your pc to shutdown by setting the timer which takes in 3 entries for hrs minuits and seconds
+## This is an app developed for windows .You can time your pc to shutdown by setting the timer which takes in 3 entries for Hours, Minutes and Seconds
 
 ## Currently supported features
 
 - Shuts the pc down after the given time
 
 - If you want to cancel the set timer it can be done by clicking on the cancel button
-- ~~Once the timer is set it can be extended~~  
-  - Current extend overwrites the previously set time
+- Once the timer is set it can be extended 
+  - Two modes are available
+    - Direct mode : Shuts down the pc for the chosen quicky 
+    - Manual mode : Adds the selected time to the input fields
+  
 
 <h3><details>
   <summary>BETA features </summary>
@@ -28,24 +31,25 @@
   - Add names for pcs
  
 ## Screenshots
-![image](https://user-images.githubusercontent.com/36219488/182211715-51e0f7ad-7a3d-43ff-8bf9-ab33737ca94b.png)
+![image](https://user-images.githubusercontent.com/36219488/185763136-f971e321-7396-49d1-b5d7-10b7ed8a560e.png)
 
 ![image](https://user-images.githubusercontent.com/36219488/182211949-fe9d23b4-e833-48a0-bccf-10628c8a26d3.png)
 
 ![image](https://user-images.githubusercontent.com/36219488/182211899-0e86347e-0b63-42de-a946-024b7a9d97d9.png)
 
-### [Releases](https://github.com/rakshith111/Shutdown-timer/releases) <br>
+### [Releases](https://github.com/rakshith111/Shutdown-timer/releases)
 
-<h3><details>
+<h4><details>
   <summary>Build it by yourself </summary>
   <code>pip install pyinstaller </code><br>
   Then run <br>
-  <code>pyinstaller --onefile -w main.py -i shutdown.ico</code>
+  <code>pyinstaller --onefile -w main.py -i shutdown.ico</code> <br>
 
-</details></h3>
+</details></h4>
 
-<details>
-  <summary>P.S</summary><br>
-  <h3>I was just tooo frustrated that I didnt have a shutdown timer and couldnt trust the one's I found online so i built one</h3>
+## WHY? 
+  I was just tooo frustrated that I didnt have a shutdown timer and couldnt trust the one's I found online so i built one<br>
+  Also wanted to see how far i can strech this one simple concept by integrating many features and extend its use for many people
+  
 
-</details>
+
