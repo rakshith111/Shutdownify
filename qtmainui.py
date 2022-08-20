@@ -23,9 +23,11 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(30, 30, 641, 31))
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(30, 30, 651, 41))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
         self.input_layout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
+        self.input_layout.setSizeConstraint(
+            QtWidgets.QLayout.SetDefaultConstraint)
         self.input_layout.setContentsMargins(10, 0, 10, 0)
         self.input_layout.setObjectName("input_layout")
         self.hours_field = QtWidgets.QPlainTextEdit(
@@ -50,16 +52,16 @@ class Ui_MainWindow(object):
         self.seconds_label.setGeometry(QtCore.QRect(460, 10, 47, 13))
         self.seconds_label.setObjectName("seconds_label")
         self.mode = QtWidgets.QGroupBox(self.centralwidget)
-        self.mode.setGeometry(QtCore.QRect(240, 260, 221, 111))
+        self.mode.setGeometry(QtCore.QRect(240, 260, 231, 91))
         self.mode.setObjectName("mode")
-        self.shutdown_mode = QtWidgets.QRadioButton(self.mode)
-        self.shutdown_mode.setGeometry(QtCore.QRect(30, 30, 158, 17))
-        self.shutdown_mode.setObjectName("shutdown_mode")
-        self.extend_mode = QtWidgets.QRadioButton(self.mode)
-        self.extend_mode.setGeometry(QtCore.QRect(30, 60, 158, 17))
-        self.extend_mode.setObjectName("extend_mode")
+        self.direct_mode = QtWidgets.QRadioButton(self.mode)
+        self.direct_mode.setGeometry(QtCore.QRect(30, 30, 158, 17))
+        self.direct_mode.setObjectName("direct_mode")
+        self.manual_mode = QtWidgets.QRadioButton(self.mode)
+        self.manual_mode.setGeometry(QtCore.QRect(30, 60, 158, 17))
+        self.manual_mode.setObjectName("manual_mode")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(30, 70, 651, 161))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(30, 80, 651, 151))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.buttons_layout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.buttons_layout.setContentsMargins(0, 0, 0, 0)
@@ -97,6 +99,7 @@ class Ui_MainWindow(object):
         self.quickes.addWidget(self.mins_60)
         self.buttons_layout.addLayout(self.quickes)
         MainWindow.setCentralWidget(self.centralwidget)
+        self.direct_mode.setChecked(True)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -111,8 +114,8 @@ class Ui_MainWindow(object):
         self.minutes_label.setText(_translate("MainWindow", "Minutes"))
         self.seconds_label.setText(_translate("MainWindow", "Seconds"))
         self.mode.setTitle(_translate("MainWindow", "Mode"))
-        self.shutdown_mode.setText(_translate("MainWindow", "Shutdown mode"))
-        self.extend_mode.setText(_translate("MainWindow", "Extend mode"))
+        self.direct_mode.setText(_translate("MainWindow", "Direct mode"))
+        self.manual_mode.setText(_translate("MainWindow", "Manual mode"))
         self.clear_btn.setText(_translate("MainWindow", "Clear"))
         self.cancel_btn.setText(_translate("MainWindow", "Cancel"))
         self.extend_btn.setText(_translate("MainWindow", "Extend"))
@@ -141,6 +144,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.hours_field.installEventFilter(self)
         self.ui.minuits_field.installEventFilter(self)
         self.ui.seconds_field.installEventFilter(self)
+        self.ui.mins_5.installEventFilter(self)
+        self.ui.mins_10.installEventFilter(self)
+        self.ui.mins_30.installEventFilter(self)
+        self.ui.mins_60.installEventFilter(self)
+        self.ui.manual_mode.installEventFilter(self)
+        self.ui.direct_mode.installEventFilter(self)
+        self.ui.direct_mode.setToolTip("Sets a timer immediately")
+        self.ui.manual_mode.setToolTip(
+            "Adds the time to the current timer\n Should manually choose the mode")
 
     def clear_fields(self):
         self.ui.hours_field.setPlainText("0")
@@ -155,36 +167,101 @@ class MainWindow(QtWidgets.QMainWindow):
         # handles mousevents
 
         if event.type() == QtCore.QEvent.MouseButtonPress:
-            self.msg = QMessageBox()
-            self.msg.setIcon(QMessageBox.Critical)
-            self.msg.setText("Error")
-            self.msg.setWindowTitle("Error")
-            try:
-                self.hrs_val = int(self.ui.hours_field.toPlainText())
-                self.min_val = int(self.ui.minuits_field.toPlainText())
-                self.sec_val = int(self.ui.seconds_field.toPlainText())
-                self.finalseconds = self.hrs_val*3600+self.min_val*60+self.sec_val
-            except ValueError:
-                self.msg.setInformativeText('Characters are not allowed')
-                self.msg.exec_()
-                self.hrs_val = 0
-                self.min_val = 0
-                self.sec_val = 0
-                self.finalseconds = 1
-                self.ui.hours_field.setPlainText("0")
-                self.ui.minuits_field.setPlainText("0")
-                self.ui.seconds_field.setPlainText("0")
-            if (self.finalseconds < 10):
-                self.msg.setInformativeText('Minimum time is 10 seconds')
-                self.msg.exec_()
-            elif(source is self.ui.submit_btn):
-                self.call.submit(self.finalseconds)
-            elif source is self.ui.extend_btn:
-                self.extendstatus = self.call.extend(
-                    self.finalseconds)
-                if(not self.extendstatus):
-                    self.msg.setInformativeText('Start the timer first')
-                    self.msg.exec_()
+            self.criticalmsg = QMessageBox()
+            self.criticalmsg.setIcon(QMessageBox.Critical)
+            self.criticalmsg.setInformativeText("Error")
+            self.criticalmsg.setWindowTitle("Error")
+            self.informationmsg = QMessageBox()
+            self.informationmsg.setIcon(QMessageBox.Information)
+            self.informationmsg.setInformativeText("Information")
+            self.informationmsg.setWindowTitle("Information")
+
+            if self.ui.direct_mode.isChecked():
+                if(source == self.ui.mins_5):
+                    self.quick = 5*60
+                    self.informationmsg.setInformativeText(
+                        "Setting a timer for 5 minutes ")
+                    self.informationmsg.exec_()
+                    self.call.submit(self.quick)
+                elif(source == self.ui.mins_10):
+                    self.quick: int = 10*60
+                    self.informationmsg.setInformativeText(
+                        "Setting a timer for 10 minutes ")
+                    self.informationmsg.exec_()
+                    self.call.submit(self.quick)
+                elif(source == self.ui.mins_30):
+                    self.quick: int = 30*60
+                    self.informationmsg.setInformativeText(
+                        "Setting a timer for 30 minutes ")
+                    self.informationmsg.exec_()
+                    self.call.submit(self.quick)
+                elif(source == self.ui.mins_60):
+                    self.quick: int = 60*60
+                    self.informationmsg.setInformativeText(
+                        "Setting a timer for 1 hour ")
+                    self.informationmsg.exec_()
+                    self.call.submit(self.quick)
+            else:
+
+                try:
+                    self.hrs_val = int(self.ui.hours_field.toPlainText())
+                    self.min_val = int(self.ui.minuits_field.toPlainText())
+                    self.sec_val = int(self.ui.seconds_field.toPlainText())
+                    self.finalseconds = self.hrs_val*3600+self.min_val*60+self.sec_val
+                except ValueError:
+                    self.criticalmsg.setInformativeText(
+                        'Characters are not allowed')
+                    self.criticalmsg.exec_()
+                    self.hrs_val = 0
+                    self.min_val = 0
+                    self.sec_val = 0
+                    self.finalseconds = 1
+                    self.ui.hours_field.setPlainText("0")
+                    self.ui.minuits_field.setPlainText("0")
+                    self.ui.seconds_field.setPlainText("0")
+                if self.ui.manual_mode.isChecked():
+                    if(source == self.ui.mins_5):
+                        self.quick = 5
+                        self.ui.minuits_field.setPlainText(
+                            str(self.quick+self.min_val))
+                        self.informationmsg.setInformativeText(
+                            "Adding 5 minutes ")
+                        self.informationmsg.exec_()
+                    elif(source == self.ui.mins_10):
+                        self.quick = 10
+                        self.ui.minuits_field.setPlainText(
+                            str(self.quick+self.min_val))
+                        self.informationmsg.setInformativeText(
+                            "Adding 10 minutes ")
+                        self.informationmsg.exec_()
+                    elif(source == self.ui.mins_30):
+                        self.quick = 30
+                        self.ui.minuits_field.setPlainText(
+                            str(self.quick+self.min_val))
+                        self.informationmsg.setInformativeText(
+                            "Adding 30 minutes ")
+                        self.informationmsg.exec_()
+                    elif(source == self.ui.mins_60):
+                        self.quick = 1
+                        self.ui.hours_field.setPlainText(
+                            str(self.quick+self.min_val))
+                        self.informationmsg.setInformativeText(
+                            "Adding 1 hour ")
+                        self.informationmsg.exec_()
+
+                if (self.finalseconds < 10 and (source is self.ui.submit_btn or source is self.ui.extend_btn)):
+                    self.criticalmsg.setInformativeText(
+                        'Minimum time is 10 seconds')
+                    self.criticalmsg.exec_()
+                elif(source is self.ui.submit_btn):
+                    self.call.submit(self.finalseconds)
+                elif source is self.ui.extend_btn:
+                    self.extendstatus = self.call.extend(
+                        self.finalseconds)
+                    if(not self.extendstatus):
+                        self.criticalmsg.setInformativeText(
+                            'Start the timer first')
+                        self.criticalmsg.exec_()
 
             if source is self.ui.cancel_btn:
                 self.call.cancel()
