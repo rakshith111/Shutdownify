@@ -20,6 +20,7 @@ class callback():
         # int value of the AC power setting index
         self.current_sleeper_seconds = int(searchhex[24:], 16)
         self.input_seconds = 0
+        self.last_thread_state = False
         print(self.current_sleeper_seconds)
 
     def sleeper_action(self, state=True):
@@ -27,11 +28,15 @@ class callback():
             print(f"Activated for {self.input_seconds-10} seconds")
             subprocess.run(["powercfg ", "/SETACVALUEINDEX", f'{self.current_power_scheme_guid}', "SUB_VIDEO", "VIDEOIDLE", "30"],  shell=False,
                            stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            t = Timer(self.input_seconds-10, self.sleep_reset)
-            t.start()
+            if not self.last_thread_state:
+                self.t = Timer(self.input_seconds-10, self.sleep_reset)
+                self.t.start()
+                self.last_thread_state = True
+            else:
+                self.t.cancle()
 
     def sleep_reset(self):
-        print("restting")
+
         # TO set custom sleep time
         subprocess.run(["powercfg ", "/SETACVALUEINDEX", f'{self.current_power_scheme_guid}', "SUB_VIDEO", "VIDEOIDLE", f"{self.current_sleeper_seconds}"],  shell=False,
                        stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
