@@ -25,22 +25,22 @@ class callback():
     def sleeper_action(self, state=True):
         if state and self.input_seconds > 10:
             print(f"Activated for {self.input_seconds-10} seconds")
-            # subprocess.run(["powercfg ", "/SETACVALUEINDEX", f'{self.current_power_scheme_guid}', "SUB_VIDEO", "VIDEOIDLE", "30"],  shell=False,
-            # stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(["powercfg ", "/SETACVALUEINDEX", f'{self.current_power_scheme_guid}', "SUB_VIDEO", "VIDEOIDLE", "30"],  shell=False,
+            stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             t = Timer(self.input_seconds-10, self.sleep_reset)
             t.start()
 
     def sleep_reset(self):
         print("restting")
         # TO set custom sleep time
-        # subprocess.run(["powercfg ", "/SETACVALUEINDEX", f'{self.current_power_scheme_guid}', "SUB_VIDEO", "VIDEOIDLE", "self.current_sleeper_seconds"],  shell=False,
-        #   stdout = subprocess.PIPE, stdin = subprocess.DEVNULL, stderr = subprocess.DEVNULL)
+        subprocess.run(["powercfg ", "/SETACVALUEINDEX", f'{self.current_power_scheme_guid}', "SUB_VIDEO", "VIDEOIDLE", "self.current_sleeper_seconds"],  shell=False,
+                       stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     def submit(self, seconds):
 
         self.base_time = datetime.now()
         self.input_seconds = seconds
-
+       # print("SHUTDOWN for {} seconds".format(self.input_seconds))
         subprocess.run(["shutdown", "-s", "-t", f"{self.input_seconds}"],  shell=False,
                        stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
@@ -49,15 +49,17 @@ class callback():
         if (self.base_time is None):  # Fails if the user tries to extend the timer before starting it
             return False
         else:
-            print(self.base_time)
+
             subprocess.run(["shutdown", "-a"],  shell=False, stdout=subprocess.PIPE,
                            stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             self.elapsedtime = (datetime.now() - self.base_time).seconds
-            self.input_seconds = self.elapsedtime+seconds
+            self.input_seconds = self.input_seconds-self.elapsedtime+seconds
+           # print("SHUTDOWN for {} seconds".format(self.input_seconds))
             self.submit(self.input_seconds)
             return True
 
     def cancel(self):
+        self.base_time = None
         # if you want to cancel
         subprocess.run(["shutdown", "-a"],  shell=False, stdout=subprocess.PIPE,
                        stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
