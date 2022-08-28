@@ -21,6 +21,7 @@ class callback():
         self.current_sleeper_seconds = int(searchhex[24:], 16)
         self.input_seconds = 0
         self.last_thread_state = False
+        self.base_time = None
         print(self.current_sleeper_seconds)
 
     def sleeper_action(self, state=True):
