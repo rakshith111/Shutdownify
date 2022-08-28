@@ -144,7 +144,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.clear_btn.clicked.connect(self.clear_fields)
         self.ui.direct_mode.setChecked(True)
         self.ui.timeout_box.setChecked(True)
-        self.ui.timeout_box.installEventFilter(self)
+
         self.ui.submit_btn.installEventFilter(self)
         self.ui.extend_btn.installEventFilter(self)
         self.ui.cancel_btn.installEventFilter(self)
@@ -160,6 +160,24 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.direct_mode.setToolTip("Sets a timer immediately")
         self.ui.manual_mode.setToolTip(
             "Adds the time to the current timer\n Should manually choose the mode")
+
+    def get_numbers(self):
+        try:
+            self.hrs_val = int(self.ui.hours_field.toPlainText())
+            self.min_val = int(self.ui.minuits_field.toPlainText())
+            self.sec_val = int(self.ui.seconds_field.toPlainText())
+            self.finalseconds = self.hrs_val*3600+self.min_val*60+self.sec_val
+        except ValueError:
+            self.criticalmsg.setInformativeText(
+                'Characters are not allowed')
+            self.criticalmsg.exec_()
+            self.hrs_val = 0
+            self.min_val = 0
+            self.sec_val = 0
+            self.finalseconds = 1
+            self.ui.hours_field.setPlainText("0")
+            self.ui.minuits_field.setPlainText("0")
+            self.ui.seconds_field.setPlainText("0")
 
     def clear_fields(self):
         self.ui.hours_field.setPlainText("0")
@@ -182,7 +200,6 @@ class MainWindow(QtWidgets.QMainWindow):
             self.informationmsg.setIcon(QMessageBox.Information)
             self.informationmsg.setInformativeText("Information")
             self.informationmsg.setWindowTitle("Information")
-
             if self.ui.direct_mode.isChecked():
                 if(source == self.ui.mins_5):
                     self.quick = 5*60
@@ -208,69 +225,55 @@ class MainWindow(QtWidgets.QMainWindow):
                         "Setting a timer for 1 hour ")
                     self.informationmsg.exec_()
                     self.call.submit(self.quick)
-            else:
+            elif self.ui.manual_mode.isChecked():
+                if(source == self.ui.mins_5):
+                    self.quick = 5
+                    self.ui.minuits_field.setPlainText(
+                        str(self.quick+self.min_val))
+                    self.informationmsg.setInformativeText(
+                        "Adding 5 minutes ")
+                    self.informationmsg.exec_()
+                elif(source == self.ui.mins_10):
+                    self.quick = 10
+                    self.ui.minuits_field.setPlainText(
+                        str(self.quick+self.min_val))
+                    self.informationmsg.setInformativeText(
+                        "Adding 10 minutes ")
+                    self.informationmsg.exec_()
+                elif(source == self.ui.mins_30):
+                    self.quick = 30
+                    self.ui.minuits_field.setPlainText(
+                        str(self.quick+self.min_val))
+                    self.informationmsg.setInformativeText(
+                        "Adding 30 minutes ")
+                    self.informationmsg.exec_()
+                elif(source == self.ui.mins_60):
+                    self.quick = 1
+                    self.ui.hours_field.setPlainText(
+                        str(self.quick+self.min_val))
+                    self.informationmsg.setInformativeText(
+                        "Adding 1 hour ")
+                    self.informationmsg.exec_()
+            self.get_numbers()
+            if (self.finalseconds < 20 and (source is self.ui.submit_btn or source is self.ui.extend_btn)):
+                self.criticalmsg.setInformativeText(
+                    'Minimum time is 20 seconds')
+                self.criticalmsg.exec_()
+            elif(source is self.ui.submit_btn):
+                self.get_numbers()
+                self.call.submit(self.finalseconds)
+                self.call.sleeper_action(self.ui.timeout_box.isChecked())
+            elif source is self.ui.extend_btn:
+                self.get_numbers()
+                self.extendstatus = self.call.extend(
+                    self.finalseconds)
 
-                try:
-                    self.hrs_val = int(self.ui.hours_field.toPlainText())
-                    self.min_val = int(self.ui.minuits_field.toPlainText())
-                    self.sec_val = int(self.ui.seconds_field.toPlainText())
-                    self.finalseconds = self.hrs_val*3600+self.min_val*60+self.sec_val
-                except ValueError:
+                if(not self.extendstatus):
                     self.criticalmsg.setInformativeText(
-                        'Characters are not allowed')
+                        'Start the timer first')
                     self.criticalmsg.exec_()
-                    self.hrs_val = 0
-                    self.min_val = 0
-                    self.sec_val = 0
-                    self.finalseconds = 1
-                    self.ui.hours_field.setPlainText("0")
-                    self.ui.minuits_field.setPlainText("0")
-                    self.ui.seconds_field.setPlainText("0")
-                if self.ui.manual_mode.isChecked():
-                    if(source == self.ui.mins_5):
-                        self.quick = 5
-                        self.ui.minuits_field.setPlainText(
-                            str(self.quick+self.min_val))
-                        self.informationmsg.setInformativeText(
-                            "Adding 5 minutes ")
-                        self.informationmsg.exec_()
-                    elif(source == self.ui.mins_10):
-                        self.quick = 10
-                        self.ui.minuits_field.setPlainText(
-                            str(self.quick+self.min_val))
-                        self.informationmsg.setInformativeText(
-                            "Adding 10 minutes ")
-                        self.informationmsg.exec_()
-                    elif(source == self.ui.mins_30):
-                        self.quick = 30
-                        self.ui.minuits_field.setPlainText(
-                            str(self.quick+self.min_val))
-                        self.informationmsg.setInformativeText(
-                            "Adding 30 minutes ")
-                        self.informationmsg.exec_()
-                    elif(source == self.ui.mins_60):
-                        self.quick = 1
-                        self.ui.hours_field.setPlainText(
-                            str(self.quick+self.min_val))
-                        self.informationmsg.setInformativeText(
-                            "Adding 1 hour ")
-                        self.informationmsg.exec_()
-
-                if (self.finalseconds < 20 and (source is self.ui.submit_btn or source is self.ui.extend_btn)):
-                    self.criticalmsg.setInformativeText(
-                        'Minimum time is 20 seconds')
-                    self.criticalmsg.exec_()
-                elif(source is self.ui.submit_btn):
-                    self.call.submit(self.finalseconds)
+                else:
                     self.call.sleeper_action(self.ui.timeout_box.isChecked())
-                elif source is self.ui.extend_btn:
-                    self.extendstatus = self.call.extend(
-                        self.finalseconds)
-                    self.call.sleeper_action(self.ui.timeout_box.isChecked())
-                    if(not self.extendstatus):
-                        self.criticalmsg.setInformativeText(
-                            'Start the timer first')
-                        self.criticalmsg.exec_()
 
             if source is self.ui.cancel_btn:
                 self.call.cancel()
@@ -282,7 +285,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 if source.toPlainText() == '0':
                     source.setPlainText("")
                     return True
-            if source is self.ui.submit_btn or source is self.ui.extend_btn:
+            if type(source) == QtWidgets.QPushButton:
                 if(self.ui.hours_field.toPlainText() == ''):
                     self.ui.hours_field.setPlainText("0")
                 if(self.ui.minuits_field.toPlainText() == ''):
