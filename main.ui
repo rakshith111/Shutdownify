@@ -110,8 +110,8 @@
    <widget class="QGroupBox" name="mode">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>260</y>
+      <x>30</x>
+      <y>250</y>
       <width>231</width>
       <height>91</height>
      </rect>
@@ -246,8 +246,20 @@
      </item>
     </layout>
    </widget>
+   <widget class="QCheckBox" name="timeout_box">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>260</y>
+      <width>151</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Fast display timeout</string>
+    </property>
+   </widget>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

@@ -27,10 +27,10 @@ class callback():
             print(f"Activated for {self.input_seconds-10} seconds")
             # subprocess.run(["powercfg ", "/SETACVALUEINDEX", f'{self.current_power_scheme_guid}', "SUB_VIDEO", "VIDEOIDLE", "30"],  shell=False,
             # stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            t = Timer(self.input_seconds-10, self.sleep_timer)
+            t = Timer(self.input_seconds-10, self.sleep_reset)
             t.start()
 
-    def sleep_timer(self):
+    def sleep_reset(self):
         print("restting")
         # TO set custom sleep time
         # subprocess.run(["powercfg ", "/SETACVALUEINDEX", f'{self.current_power_scheme_guid}', "SUB_VIDEO", "VIDEOIDLE", "self.current_sleeper_seconds"],  shell=False,
@@ -40,6 +40,7 @@ class callback():
 
         self.base_time = datetime.now()
         self.input_seconds = seconds
+
         subprocess.run(["shutdown", "-s", "-t", f"{self.input_seconds}"],  shell=False,
                        stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 

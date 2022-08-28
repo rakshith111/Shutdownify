@@ -52,7 +52,7 @@ class Ui_MainWindow(object):
         self.seconds_label.setGeometry(QtCore.QRect(460, 10, 47, 13))
         self.seconds_label.setObjectName("seconds_label")
         self.mode = QtWidgets.QGroupBox(self.centralwidget)
-        self.mode.setGeometry(QtCore.QRect(240, 260, 231, 91))
+        self.mode.setGeometry(QtCore.QRect(30, 250, 231, 91))
         self.mode.setObjectName("mode")
         self.direct_mode = QtWidgets.QRadioButton(self.mode)
         self.direct_mode.setGeometry(QtCore.QRect(30, 30, 158, 17))
@@ -98,8 +98,10 @@ class Ui_MainWindow(object):
         self.mins_60.setObjectName("mins_60")
         self.quickes.addWidget(self.mins_60)
         self.buttons_layout.addLayout(self.quickes)
+        self.timeout_box = QtWidgets.QCheckBox(self.centralwidget)
+        self.timeout_box.setGeometry(QtCore.QRect(280, 260, 151, 17))
+        self.timeout_box.setObjectName("timeout_box")
         MainWindow.setCentralWidget(self.centralwidget)
-        self.direct_mode.setChecked(True)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -124,6 +126,8 @@ class Ui_MainWindow(object):
         self.mins_10.setText(_translate("MainWindow", "+10 mins"))
         self.mins_30.setText(_translate("MainWindow", "+30 mins"))
         self.mins_60.setText(_translate("MainWindow", "+1 hr"))
+        self.timeout_box.setText(_translate(
+            "MainWindow", "Fast display timeout"))
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -138,6 +142,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowFlag(QtCore.Qt.WindowMaximizeButtonHint, False)
         # add listeners to buttons and fields
         self.ui.clear_btn.clicked.connect(self.clear_fields)
+        self.ui.direct_mode.setChecked(True)
+        self.ui.timeout_box.setChecked(True)
+        self.ui.timeout_box.installEventFilter(self)
         self.ui.submit_btn.installEventFilter(self)
         self.ui.extend_btn.installEventFilter(self)
         self.ui.cancel_btn.installEventFilter(self)
@@ -249,15 +256,17 @@ class MainWindow(QtWidgets.QMainWindow):
                             "Adding 1 hour ")
                         self.informationmsg.exec_()
 
-                if (self.finalseconds < 10 and (source is self.ui.submit_btn or source is self.ui.extend_btn)):
+                if (self.finalseconds < 20 and (source is self.ui.submit_btn or source is self.ui.extend_btn)):
                     self.criticalmsg.setInformativeText(
-                        'Minimum time is 10 seconds')
+                        'Minimum time is 20 seconds')
                     self.criticalmsg.exec_()
                 elif(source is self.ui.submit_btn):
                     self.call.submit(self.finalseconds)
+                    self.call.sleeper_action(self.ui.timeout_box.isChecked())
                 elif source is self.ui.extend_btn:
                     self.extendstatus = self.call.extend(
                         self.finalseconds)
+                    self.call.sleeper_action(self.ui.timeout_box.isChecked())
                     if(not self.extendstatus):
                         self.criticalmsg.setInformativeText(
                             'Start the timer first')
@@ -265,6 +274,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
             if source is self.ui.cancel_btn:
                 self.call.cancel()
+                self.call.sleep_reset()
 
         # Clears the field value  if the user enters the fields
         if event.type() == QtCore.QEvent.Enter:
