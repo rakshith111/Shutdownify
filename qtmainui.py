@@ -208,24 +208,28 @@ class MainWindow(QtWidgets.QMainWindow):
                         "Setting a timer for 5 minutes ")
                     self.informationmsg.exec_()
                     self.call.submit(self.quick)
+                    self.call.sleeper_action(self.ui.timeout_box.isChecked())
                 elif(source == self.ui.mins_10):
                     self.quick: int = 10*60
                     self.informationmsg.setInformativeText(
                         "Setting a timer for 10 minutes ")
                     self.informationmsg.exec_()
                     self.call.submit(self.quick)
+                    self.call.sleeper_action(self.ui.timeout_box.isChecked())
                 elif(source == self.ui.mins_30):
                     self.quick: int = 30*60
                     self.informationmsg.setInformativeText(
                         "Setting a timer for 30 minutes ")
                     self.informationmsg.exec_()
                     self.call.submit(self.quick)
+                    self.call.sleeper_action(self.ui.timeout_box.isChecked())
                 elif(source == self.ui.mins_60):
                     self.quick: int = 60*60
                     self.informationmsg.setInformativeText(
                         "Setting a timer for 1 hour ")
                     self.informationmsg.exec_()
                     self.call.submit(self.quick)
+                    self.call.sleeper_action(self.ui.timeout_box.isChecked())
             elif self.ui.manual_mode.isChecked():
                 self.get_numbers()
                 if(source == self.ui.mins_5):
