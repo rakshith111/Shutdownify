@@ -11,6 +11,7 @@
   - Two modes are available
     - Direct mode : Shuts down the pc for the chosen time immediately  
     - Manual mode : Adds the selected time to the input fields
+- Turn Off your(Screen timeout) monitor earlier in case your might be away for a long time. (The previous value will reset before the pc shuts down)
   
 
 <h3><details>
