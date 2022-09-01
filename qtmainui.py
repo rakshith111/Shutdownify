@@ -201,6 +201,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.informationmsg.setInformativeText("Information")
             self.informationmsg.setWindowTitle("Information")
             if self.ui.direct_mode.isChecked():
+                self.get_numbers()
                 if(source == self.ui.mins_5):
                     self.quick = 5*60
                     self.informationmsg.setInformativeText(
@@ -226,6 +227,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     self.informationmsg.exec_()
                     self.call.submit(self.quick)
             elif self.ui.manual_mode.isChecked():
+                self.get_numbers()
                 if(source == self.ui.mins_5):
                     self.quick = 5
                     self.ui.minuits_field.setPlainText(
@@ -250,7 +252,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 elif(source == self.ui.mins_60):
                     self.quick = 1
                     self.ui.hours_field.setPlainText(
-                        str(self.quick+self.min_val))
+                        str(self.quick+self.hrs_val))
                     self.informationmsg.setInformativeText(
                         "Adding 1 hour ")
                     self.informationmsg.exec_()

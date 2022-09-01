@@ -34,7 +34,7 @@ class callback():
                 self.t.start()
                 self.last_thread_state = True
             else:
-                self.t.cancle()
+                self.t.cancel()
 
     def sleep_reset(self):
 
