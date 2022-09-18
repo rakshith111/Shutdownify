@@ -200,33 +200,34 @@ class MainWindow(QtWidgets.QMainWindow):
             self.informationmsg.setIcon(QMessageBox.Information)
             self.informationmsg.setInformativeText("Information")
             self.informationmsg.setWindowTitle("Information")
+
             if self.ui.direct_mode.isChecked():
                 self.get_numbers()
                 if(source == self.ui.mins_5):
                     self.quick = 5*60
                     self.informationmsg.setInformativeText(
-                        "Setting a timer for 5 minutes ")
+                        "Starting a timer for 5 minutes ")
                     self.informationmsg.exec_()
                     self.call.submit(self.quick)
                     self.call.sleeper_action(self.ui.timeout_box.isChecked())
                 elif(source == self.ui.mins_10):
                     self.quick: int = 10*60
                     self.informationmsg.setInformativeText(
-                        "Setting a timer for 10 minutes ")
+                        "Starting a timer for 10 minutes ")
                     self.informationmsg.exec_()
                     self.call.submit(self.quick)
                     self.call.sleeper_action(self.ui.timeout_box.isChecked())
                 elif(source == self.ui.mins_30):
                     self.quick: int = 30*60
                     self.informationmsg.setInformativeText(
-                        "Setting a timer for 30 minutes ")
+                        "Starting a timer for 30 minutes ")
                     self.informationmsg.exec_()
                     self.call.submit(self.quick)
                     self.call.sleeper_action(self.ui.timeout_box.isChecked())
                 elif(source == self.ui.mins_60):
                     self.quick: int = 60*60
                     self.informationmsg.setInformativeText(
-                        "Setting a timer for 1 hour ")
+                        "Starting a timer for 1 hour ")
                     self.informationmsg.exec_()
                     self.call.submit(self.quick)
                     self.call.sleeper_action(self.ui.timeout_box.isChecked())

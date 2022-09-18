@@ -6,29 +6,32 @@ from threading import Timer
 
 class callback():
     def __init__(self):
+        # Get current power scheme guid
         current_power_scheme_cmd = subprocess.run(["powercfg ", "/GetActiveScheme"],  shell=False,
                                                   stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
         self.current_power_scheme_guid = re.search(r'\w+-\w+-\w+-\w+-\w+',
                                                    str(current_power_scheme_cmd.stdout)).group()
-
+        # Get current sleep time
         current_sleeper = subprocess.run(["powercfg", "/q",  f'{self.current_power_scheme_guid}', "SUB_VIDEO", "VIDEOIDLE"],  shell=False,
                                          stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-
+        # Get current sleep time in senconds(hex)
         searchhex = re.search(
             r'AC Power Setting Index:\s\w+', str(current_sleeper.stdout)).group()
         # int value of the AC power setting index
         self.current_sleeper_seconds = int(searchhex[24:], 16)
+        # Initiate variables
         self.input_seconds = 0
         self.last_thread_state = False
         self.base_time = None
         print(self.current_sleeper_seconds)
 
     def sleeper_action(self, state=True):
-        if state and self.input_seconds > 10:
+        if state and self.input_seconds > 10:  # if the user has set a timer and the state is true
             print(f"Activated for {self.input_seconds-10} seconds")
             subprocess.run(["powercfg ", "/SETACVALUEINDEX", f'{self.current_power_scheme_guid}', "SUB_VIDEO", "VIDEOIDLE", "30"],  shell=False,
                            stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            # Optimize / Update threading fo when canceled
             if not self.last_thread_state:
                 self.t = Timer(self.input_seconds-10, self.sleep_reset)
                 self.t.start()
@@ -66,6 +69,6 @@ class callback():
 
     def cancel(self):
         self.base_time = None
-        # if you want to cancel
+        # Cancel Command
         subprocess.run(["shutdown", "-a"],  shell=False, stdout=subprocess.PIPE,
                        stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
