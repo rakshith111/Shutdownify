@@ -4,3 +4,5 @@ todolist
 dist
 build
 qtmainui.spec
+test.py
+thread.py
