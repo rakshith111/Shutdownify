@@ -157,7 +157,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.mins_60.installEventFilter(self)
         self.ui.manual_mode.installEventFilter(self)
         self.ui.direct_mode.installEventFilter(self)
-        self.ui.extend_btn.setToolTip("Extend the time by the time you have set")
+        self.ui.extend_btn.setToolTip(
+            "Extend the time by the time you have set")
         self.ui.mode.setToolTip(
             "Should manually choose the mode (Default: Direct mode)")
         self.ui.timeout_box.setToolTip(
