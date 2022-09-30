@@ -157,9 +157,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.mins_60.installEventFilter(self)
         self.ui.manual_mode.installEventFilter(self)
         self.ui.direct_mode.installEventFilter(self)
-        self.ui.direct_mode.setToolTip("Sets a timer immediately")
+        self.ui.extend_btn.setToolTip("Extend the time by the time you have set")
+        self.ui.mode.setToolTip(
+            "Should manually choose the mode (Default: Direct mode)")
+        self.ui.timeout_box.setToolTip(
+            "This will make the display turn off after 60 seconds of inactivity")
+        self.ui.direct_mode.setToolTip("Starts a  timer immediately")
         self.ui.manual_mode.setToolTip(
-            "Adds the time to the current timer\n Should manually choose the mode")
+            "Adds the time to the current timer")
 
     def get_numbers(self):
         try:
