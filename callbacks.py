@@ -18,7 +18,7 @@ class callback():
         # Get current sleep time in senconds(hex)
         searchhex = re.search(
             r'AC Power Setting Index:\s\w+', str(current_sleeper.stdout)).group()
-        # int value of the AC power setting index
+        # int value of the AC power setting index 
         self.current_sleeper_seconds = int(searchhex[24:], 16)
         # Initiate variables
         self.input_seconds = 0
