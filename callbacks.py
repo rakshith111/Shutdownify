@@ -12,38 +12,62 @@ class callback():
 
         self.current_power_scheme_guid = re.search(r'\w+-\w+-\w+-\w+-\w+',
                                                    str(current_power_scheme_cmd.stdout)).group()
-        # Get current sleep time
-        current_sleeper = subprocess.run(["powercfg", "/q",  f'{self.current_power_scheme_guid}', "SUB_VIDEO", "VIDEOIDLE"],  shell=False,
-                                         stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        # Get current sleep time in senconds(hex)
+        # Get current screen time out
+        current_screen_timeout = subprocess.run(["powercfg", "/q",  f'{self.current_power_scheme_guid}', "SUB_VIDEO", "VIDEOIDLE"],  shell=False,
+                                                stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        # Get current sleep time out
+        current_sleep_timeout = subprocess.run(["powercfg", "/q",  f'{self.current_power_scheme_guid}', "SUB_SLEEP",
+                                               "STANDBYIDLE"],  shell=False, stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        # Get current screen time out in senconds(hex)
         searchhex = re.search(
-            r'AC Power Setting Index:\s\w+', str(current_sleeper.stdout)).group()
-        # int value of the AC power setting index 
-        self.current_sleeper_seconds = int(searchhex[24:], 16)
+            r'AC Power Setting Index:\s\w+', str(current_screen_timeout.stdout)).group()
+        # int value of the AC power setting index
+        self.current_screen_timeout_seconds = int(searchhex[24:], 16)
+        # Get current sleep time out in senconds(hex)
+        searchhex = re.search(
+            r'AC Power Setting Index:\s\w+', str(current_sleep_timeout.stdout)).group()
+        # int value of the AC power setting index
+        self.current_sleep_timeout_seconds = int(searchhex[24:], 16)
         # Initiate variables
         self.input_seconds = 0
         self.last_thread_state = False
         self.base_time = None
-        print(self.current_sleeper_seconds)
 
     def sleeper_action(self, state=True):
         if state and self.input_seconds > 10:  # if the user has set a timer and the state is true
             print(f"Activated for {self.input_seconds-10} seconds")
-            subprocess.run(["powercfg ", "/SETACVALUEINDEX", f'{self.current_power_scheme_guid}', "SUB_VIDEO", "VIDEOIDLE", "30"],  shell=False,
-                           stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            # Optimize / Update threading fo when canceled
-            if not self.last_thread_state:
+              # Set screen timeout to 1 min
+            subprocess.run(["powercfg ", "/Change ","monitor-timeout-ac",  "1"],  shell=False,
+                        stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            #Set sleep to never
+            subprocess.run(["powercfg ", "/Change ", "standby-timeout-ac",  "0"],  shell=False,
+                        stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            # Optimize / Update threading for when canceled
+            if not self.last_thread_state:  # if no thread is running
                 self.t = Timer(self.input_seconds-10, self.sleep_reset)
                 self.t.start()
                 self.last_thread_state = True
-            else:
+            else:  # if a thread is running cancel it and start a new one
+                print(f'{self.t.getName()} canceled')
                 self.t.cancel()
+                self.last_thread_state = False
+                # call self again to reinit the thread
+                self.sleeper_action(True)
 
     def sleep_reset(self):
+        #Stop any threads
+        if self.last_thread_state:
+            print(f'{self.t.getName()} canceled')
+            self.t.cancel()
+            self.last_thread_state = False
 
-        # TO set custom sleep time
-        subprocess.run(["powercfg ", "/SETACVALUEINDEX", f'{self.current_power_scheme_guid}', "SUB_VIDEO", "VIDEOIDLE", f"{self.current_sleeper_seconds}"],  shell=False,
+        # Set screen timeout to default
+        subprocess.run(["powercfg ", "/Change ","monitor-timeout-ac",  f"{(self.current_screen_timeout_seconds)//60}"],  shell=False,
                        stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        #Set sleep to default
+        subprocess.run(["powercfg ", "/Change ", "standby-timeout-ac",  f"{(self.current_sleep_timeout_seconds)//60}"],  shell=False,
+                       stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        
 
     def submit(self, seconds):
 
