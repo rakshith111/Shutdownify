@@ -37,10 +37,10 @@ class callback():
         if state and self.input_seconds > 10:  # if the user has set a timer and the state is true
             print(f"Activated for {self.input_seconds-10} seconds")
             # Set screen timeout to 1 min
-            subprocess.run(["powercfg ", "/Change", "monitor-timeout-ac",  "1"],  shell=False,
+            subprocess.run(["powercfg", "/Change", "monitor-timeout-ac",  "1"],  shell=False,
                            stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             #Set sleep to never
-            subprocess.run(["powercfg ", "/Change", "standby-timeout-ac",  "0"],  shell=False,
+            subprocess.run(["powercfg", "/Change", "standby-timeout-ac",  "0"],  shell=False,
                            stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             # Optimize / Update threading for when canceled
             if not self.last_thread_state:  # if no thread is running
@@ -62,10 +62,10 @@ class callback():
             self.last_thread_state = False
 
         # Set screen timeout to default
-        subprocess.run(["powercfg ", "/Change ", "monitor-timeout-ac",  f"{(self.current_screen_timeout_seconds)//60}"],  shell=False,
+        subprocess.run(["powercfg", "/Change", "monitor-timeout-ac",  f"{(self.current_screen_timeout_seconds)//60}"],  shell=False,
                        stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         #Set sleep to default
-        subprocess.run(["powercfg ", "/Change ", "standby-timeout-ac",  f"{(self.current_sleep_timeout_seconds)//60}"],  shell=False,
+        subprocess.run(["powercfg", "/Change", "standby-timeout-ac",  f"{(self.current_sleep_timeout_seconds)//60}"],  shell=False,
                        stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
