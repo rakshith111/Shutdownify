@@ -30,23 +30,47 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>30</y>
+      <y>51</y>
       <width>651</width>
-      <height>41</height>
+      <height>81</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="input_layout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
      <property name="leftMargin">
-      <number>10</number>
+      <number>0</number>
      </property>
      <property name="rightMargin">
-      <number>10</number>
+      <number>0</number>
      </property>
      <item>
       <widget class="QPlainTextEdit" name="hours_field">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>1</horstretch>
+         <verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
        <property name="plainText">
         <string>0</string>
        </property>
@@ -54,6 +78,30 @@
      </item>
      <item>
       <widget class="QPlainTextEdit" name="minuits_field">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="contextMenuPolicy">
+        <enum>Qt::ActionsContextMenu</enum>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
        <property name="plainText">
         <string>0</string>
        </property>
@@ -61,6 +109,30 @@
      </item>
      <item>
       <widget class="QPlainTextEdit" name="seconds_field">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
        <property name="plainText">
         <string>0</string>
        </property>
@@ -68,138 +140,95 @@
      </item>
     </layout>
    </widget>
-   <widget class="QLabel" name="hrs_label">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>10</y>
-      <width>47</width>
-      <height>13</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Hours</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="minutes_label">
-    <property name="geometry">
-     <rect>
-      <x>240</x>
-      <y>10</y>
-      <width>47</width>
-      <height>13</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Minutes</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="seconds_label">
-    <property name="geometry">
-     <rect>
-      <x>460</x>
-      <y>10</y>
-      <width>47</width>
-      <height>13</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Seconds</string>
-    </property>
-   </widget>
    <widget class="QGroupBox" name="mode">
     <property name="geometry">
      <rect>
       <x>30</x>
       <y>250</y>
-      <width>231</width>
-      <height>91</height>
+      <width>151</width>
+      <height>181</height>
      </rect>
     </property>
     <property name="title">
      <string>Mode</string>
     </property>
-    <widget class="QRadioButton" name="direct_mode">
+    <widget class="QWidget" name="verticalLayoutWidget_2">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>30</y>
-       <width>158</width>
-       <height>17</height>
+       <x>10</x>
+       <y>31</y>
+       <width>131</width>
+       <height>131</height>
       </rect>
      </property>
-     <property name="text">
-      <string>Direct mode</string>
-     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QRadioButton" name="direct_mode">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Direct mode</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="manual_mode">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Manual mode</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
-    <widget class="QRadioButton" name="manual_mode">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>60</y>
-       <width>158</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Manual mode</string>
-     </property>
-    </widget>
+   </widget>
+   <widget class="QCheckBox" name="timeout_box">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>250</y>
+      <width>151</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Fast display timeout</string>
+    </property>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>80</y>
+      <y>130</y>
       <width>651</width>
-      <height>151</height>
+      <height>111</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="buttons_layout">
-     <item>
-      <layout class="QHBoxLayout" name="main_btn_layput">
-       <property name="leftMargin">
-        <number>10</number>
-       </property>
-       <property name="topMargin">
-        <number>10</number>
-       </property>
-       <property name="rightMargin">
-        <number>10</number>
-       </property>
-       <property name="bottomMargin">
-        <number>10</number>
-       </property>
-       <item>
-        <widget class="QPushButton" name="clear_btn">
-         <property name="text">
-          <string>Clear</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="cancel_btn">
-         <property name="text">
-          <string>Cancel</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="extend_btn">
-         <property name="text">
-          <string>Extend</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="submit_btn">
-         <property name="text">
-          <string>Submit</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
+    <layout class="QVBoxLayout" name="button_layout">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
      <item>
       <layout class="QHBoxLayout" name="quickes">
        <property name="leftMargin">
@@ -244,20 +273,93 @@
        </item>
       </layout>
      </item>
+     <item>
+      <layout class="QHBoxLayout" name="main_btn_layput">
+       <property name="leftMargin">
+        <number>10</number>
+       </property>
+       <property name="topMargin">
+        <number>10</number>
+       </property>
+       <property name="rightMargin">
+        <number>10</number>
+       </property>
+       <property name="bottomMargin">
+        <number>10</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="clear_btn">
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="cancel_btn">
+         <property name="text">
+          <string>Cancel</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="extend_btn">
+         <property name="text">
+          <string>Extend</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="submit_btn">
+         <property name="text">
+          <string>Submit</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
     </layout>
    </widget>
-   <widget class="QCheckBox" name="timeout_box">
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>260</y>
-      <width>151</width>
-      <height>17</height>
+      <x>30</x>
+      <y>10</y>
+      <width>651</width>
+      <height>41</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Fast display timeout</string>
-    </property>
+    <layout class="QHBoxLayout" name="field_label">
+     <item>
+      <widget class="QLabel" name="hrs_label">
+       <property name="text">
+        <string>Hours</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="minutes_label">
+       <property name="text">
+        <string>Minutes</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="seconds_label">
+       <property name="text">
+        <string>Seconds</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
  </widget>
