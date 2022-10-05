@@ -12,6 +12,7 @@ import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 from callbacks import callback
+from qt_material import apply_stylesheet
 
 
 class Ui_MainWindow(object):
@@ -23,65 +24,99 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(30, 30, 651, 41))
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(30, 51, 651, 81))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
         self.input_layout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
         self.input_layout.setSizeConstraint(
             QtWidgets.QLayout.SetDefaultConstraint)
-        self.input_layout.setContentsMargins(10, 0, 10, 0)
+        self.input_layout.setContentsMargins(0, 0, 0, 0)
+        self.input_layout.setSpacing(0)
         self.input_layout.setObjectName("input_layout")
         self.hours_field = QtWidgets.QPlainTextEdit(
             self.horizontalLayoutWidget)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(1)
+        sizePolicy.setVerticalStretch(1)
+        sizePolicy.setHeightForWidth(
+            self.hours_field.sizePolicy().hasHeightForWidth())
+        self.hours_field.setSizePolicy(sizePolicy)
+        self.hours_field.setMinimumSize(QtCore.QSize(200, 50))
+        self.hours_field.setMaximumSize(QtCore.QSize(50, 50))
+        self.hours_field.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.hours_field.setObjectName("hours_field")
         self.input_layout.addWidget(self.hours_field)
         self.minuits_field = QtWidgets.QPlainTextEdit(
             self.horizontalLayoutWidget)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.minuits_field.sizePolicy().hasHeightForWidth())
+        self.minuits_field.setSizePolicy(sizePolicy)
+        self.minuits_field.setMinimumSize(QtCore.QSize(200, 50))
+        self.minuits_field.setMaximumSize(QtCore.QSize(50, 50))
+        self.minuits_field.setContextMenuPolicy(QtCore.Qt.ActionsContextMenu)
+        self.minuits_field.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.minuits_field.setObjectName("minuits_field")
         self.input_layout.addWidget(self.minuits_field)
         self.seconds_field = QtWidgets.QPlainTextEdit(
             self.horizontalLayoutWidget)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.seconds_field.sizePolicy().hasHeightForWidth())
+        self.seconds_field.setSizePolicy(sizePolicy)
+        self.seconds_field.setMinimumSize(QtCore.QSize(200, 50))
+        self.seconds_field.setMaximumSize(QtCore.QSize(50, 50))
+        self.seconds_field.setFocusPolicy(QtCore.Qt.StrongFocus)
+        self.seconds_field.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.seconds_field.setObjectName("seconds_field")
         self.input_layout.addWidget(self.seconds_field)
-        self.hrs_label = QtWidgets.QLabel(self.centralwidget)
-        self.hrs_label.setGeometry(QtCore.QRect(30, 10, 47, 13))
-        self.hrs_label.setObjectName("hrs_label")
-        self.minutes_label = QtWidgets.QLabel(self.centralwidget)
-        self.minutes_label.setGeometry(QtCore.QRect(240, 10, 47, 13))
-        self.minutes_label.setObjectName("minutes_label")
-        self.seconds_label = QtWidgets.QLabel(self.centralwidget)
-        self.seconds_label.setGeometry(QtCore.QRect(460, 10, 47, 13))
-        self.seconds_label.setObjectName("seconds_label")
         self.mode = QtWidgets.QGroupBox(self.centralwidget)
-        self.mode.setGeometry(QtCore.QRect(30, 250, 231, 91))
+        self.mode.setGeometry(QtCore.QRect(30, 250, 151, 181))
         self.mode.setObjectName("mode")
-        self.direct_mode = QtWidgets.QRadioButton(self.mode)
-        self.direct_mode.setGeometry(QtCore.QRect(30, 30, 158, 17))
+        self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.mode)
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(10, 31, 131, 131))
+        self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
+        self.verticalLayout = QtWidgets.QVBoxLayout(
+            self.verticalLayoutWidget_2)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.direct_mode = QtWidgets.QRadioButton(self.verticalLayoutWidget_2)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.direct_mode.sizePolicy().hasHeightForWidth())
+        self.direct_mode.setSizePolicy(sizePolicy)
+        self.direct_mode.setMinimumSize(QtCore.QSize(50, 50))
         self.direct_mode.setObjectName("direct_mode")
-        self.manual_mode = QtWidgets.QRadioButton(self.mode)
-        self.manual_mode.setGeometry(QtCore.QRect(30, 60, 158, 17))
+        self.verticalLayout.addWidget(self.direct_mode)
+        self.manual_mode = QtWidgets.QRadioButton(self.verticalLayoutWidget_2)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.manual_mode.sizePolicy().hasHeightForWidth())
+        self.manual_mode.setSizePolicy(sizePolicy)
+        self.manual_mode.setMinimumSize(QtCore.QSize(50, 50))
         self.manual_mode.setObjectName("manual_mode")
+        self.verticalLayout.addWidget(self.manual_mode)
+        self.timeout_box = QtWidgets.QCheckBox(self.centralwidget)
+        self.timeout_box.setGeometry(QtCore.QRect(240, 250, 151, 41))
+        self.timeout_box.setObjectName("timeout_box")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(30, 80, 651, 151))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(30, 130, 651, 111))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
-        self.buttons_layout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
-        self.buttons_layout.setContentsMargins(0, 0, 0, 0)
-        self.buttons_layout.setObjectName("buttons_layout")
-        self.main_btn_layput = QtWidgets.QHBoxLayout()
-        self.main_btn_layput.setContentsMargins(10, 10, 10, 10)
-        self.main_btn_layput.setObjectName("main_btn_layput")
-        self.clear_btn = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.clear_btn.setObjectName("clear_btn")
-        self.main_btn_layput.addWidget(self.clear_btn)
-        self.cancel_btn = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.cancel_btn.setObjectName("cancel_btn")
-        self.main_btn_layput.addWidget(self.cancel_btn)
-        self.extend_btn = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.extend_btn.setObjectName("extend_btn")
-        self.main_btn_layput.addWidget(self.extend_btn)
-        self.submit_btn = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.submit_btn.setObjectName("submit_btn")
-        self.main_btn_layput.addWidget(self.submit_btn)
-        self.buttons_layout.addLayout(self.main_btn_layput)
+        self.button_layout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.button_layout.setContentsMargins(0, 0, 0, 0)
+        self.button_layout.setObjectName("button_layout")
         self.quickes = QtWidgets.QHBoxLayout()
         self.quickes.setContentsMargins(10, 10, 10, 10)
         self.quickes.setObjectName("quickes")
@@ -97,10 +132,42 @@ class Ui_MainWindow(object):
         self.mins_60 = QtWidgets.QPushButton(self.verticalLayoutWidget)
         self.mins_60.setObjectName("mins_60")
         self.quickes.addWidget(self.mins_60)
-        self.buttons_layout.addLayout(self.quickes)
-        self.timeout_box = QtWidgets.QCheckBox(self.centralwidget)
-        self.timeout_box.setGeometry(QtCore.QRect(280, 260, 151, 17))
-        self.timeout_box.setObjectName("timeout_box")
+        self.button_layout.addLayout(self.quickes)
+        self.main_btn_layput = QtWidgets.QHBoxLayout()
+        self.main_btn_layput.setContentsMargins(10, 10, 10, 10)
+        self.main_btn_layput.setObjectName("main_btn_layput")
+        self.clear_btn = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.clear_btn.setObjectName("clear_btn")
+        self.main_btn_layput.addWidget(self.clear_btn)
+        self.cancel_btn = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.cancel_btn.setObjectName("cancel_btn")
+        self.main_btn_layput.addWidget(self.cancel_btn)
+        self.extend_btn = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.extend_btn.setObjectName("extend_btn")
+        self.main_btn_layput.addWidget(self.extend_btn)
+        self.submit_btn = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.submit_btn.setObjectName("submit_btn")
+        self.main_btn_layput.addWidget(self.submit_btn)
+        self.button_layout.addLayout(self.main_btn_layput)
+        self.horizontalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
+        self.horizontalLayoutWidget_2.setGeometry(
+            QtCore.QRect(30, 10, 651, 41))
+        self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
+        self.field_label = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_2)
+        self.field_label.setContentsMargins(0, 0, 0, 0)
+        self.field_label.setObjectName("field_label")
+        self.hrs_label = QtWidgets.QLabel(self.horizontalLayoutWidget_2)
+        self.hrs_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.hrs_label.setObjectName("hrs_label")
+        self.field_label.addWidget(self.hrs_label)
+        self.minutes_label = QtWidgets.QLabel(self.horizontalLayoutWidget_2)
+        self.minutes_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.minutes_label.setObjectName("minutes_label")
+        self.field_label.addWidget(self.minutes_label)
+        self.seconds_label = QtWidgets.QLabel(self.horizontalLayoutWidget_2)
+        self.seconds_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.seconds_label.setObjectName("seconds_label")
+        self.field_label.addWidget(self.seconds_label)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -112,22 +179,22 @@ class Ui_MainWindow(object):
         self.hours_field.setPlainText(_translate("MainWindow", "0"))
         self.minuits_field.setPlainText(_translate("MainWindow", "0"))
         self.seconds_field.setPlainText(_translate("MainWindow", "0"))
-        self.hrs_label.setText(_translate("MainWindow", "Hours"))
-        self.minutes_label.setText(_translate("MainWindow", "Minutes"))
-        self.seconds_label.setText(_translate("MainWindow", "Seconds"))
         self.mode.setTitle(_translate("MainWindow", "Mode"))
         self.direct_mode.setText(_translate("MainWindow", "Direct mode"))
         self.manual_mode.setText(_translate("MainWindow", "Manual mode"))
-        self.clear_btn.setText(_translate("MainWindow", "Clear"))
-        self.cancel_btn.setText(_translate("MainWindow", "Cancel"))
-        self.extend_btn.setText(_translate("MainWindow", "Extend"))
-        self.submit_btn.setText(_translate("MainWindow", "Submit"))
+        self.timeout_box.setText(_translate(
+            "MainWindow", "Fast display timeout"))
         self.mins_5.setText(_translate("MainWindow", "+5 mins"))
         self.mins_10.setText(_translate("MainWindow", "+10 mins"))
         self.mins_30.setText(_translate("MainWindow", "+30 mins"))
         self.mins_60.setText(_translate("MainWindow", "+1 hr"))
-        self.timeout_box.setText(_translate(
-            "MainWindow", "Fast display timeout"))
+        self.clear_btn.setText(_translate("MainWindow", "Clear"))
+        self.cancel_btn.setText(_translate("MainWindow", "Cancel"))
+        self.extend_btn.setText(_translate("MainWindow", "Extend"))
+        self.submit_btn.setText(_translate("MainWindow", "Submit"))
+        self.hrs_label.setText(_translate("MainWindow", "Hours"))
+        self.minutes_label.setText(_translate("MainWindow", "Minutes"))
+        self.seconds_label.setText(_translate("MainWindow", "Seconds"))
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -167,6 +234,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.manual_mode.setToolTip(
             "Adds the time to the current timer")
 
+
     def get_numbers(self):
         try:
             self.hrs_val = int(self.ui.hours_field.toPlainText())
@@ -203,6 +271,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.criticalmsg.setInformativeText("Error")
             self.criticalmsg.setWindowTitle("Error")
             self.informationmsg = QMessageBox()
+
             self.informationmsg.setIcon(QMessageBox.Information)
             self.informationmsg.setInformativeText("Information")
             self.informationmsg.setWindowTitle("Information")
@@ -269,6 +338,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     self.informationmsg.exec_()
             self.get_numbers()
             if (self.finalseconds < 20 and (source is self.ui.submit_btn or source is self.ui.extend_btn)):
+
                 self.criticalmsg.setInformativeText(
                     'Minimum time is 20 seconds')
                 self.criticalmsg.exec_()
@@ -276,6 +346,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.get_numbers()
                 self.call.submit(self.finalseconds)
                 self.call.sleeper_action(self.ui.timeout_box.isChecked())
+
+
             elif source is self.ui.extend_btn:
                 self.get_numbers()
                 self.extendstatus = self.call.extend(
@@ -320,19 +392,9 @@ class MainWindow(QtWidgets.QMainWindow):
         return QtWidgets.QWidget.eventFilter(self, source, event)
 
 
-# for colors
-# QLineEdit
-# {
-#     background-color: black
-# }
-
-# QLineEdit[text = ""]
-# {
-#     background-color: red
-# }
-
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
+    apply_stylesheet(app, theme='dark_blue.xml')
     w = MainWindow()
     w.show()
     sys.exit(app.exec_())
