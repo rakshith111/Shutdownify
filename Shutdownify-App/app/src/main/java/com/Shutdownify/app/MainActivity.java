@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean demo_btn_status = true;
     public String HOST;
     public boolean device_state=false;
-    //intit stf
+    //init stf
     EditText ipInput;
     EditText timeInp;
     TextView state_view;
