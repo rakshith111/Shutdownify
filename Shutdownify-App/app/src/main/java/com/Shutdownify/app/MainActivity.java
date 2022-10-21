@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
             jsonbody.put("Time", 0);
             jsonbody.put("Cancel", true);
         }else {
+            //case shutdown action
             jsonbody.put("Action", action);
             jsonbody.put("Time", timeInp.getText().toString());
             jsonbody.put("Cancel", false);
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "onResponse: " + "working response "+response.toString()+" "+action);
 
                 try {
-                    //incase of error
+                    //in case of error
                     if(response.has("Error")){
                         Toast.makeText(MainActivity.this, response.get("Error").toString(), Toast.LENGTH_SHORT).show();
 
@@ -207,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
 
-                Log.d(TAG, "onResponse:JSON Respons " +response.toString());
+                Log.d(TAG, "onResponse:JSON Response " +response.toString());
                 if (response.has("STATE")) {
                     device_state = true;
                     Log.d(TAG, "init  "+true);

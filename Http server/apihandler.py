@@ -94,6 +94,7 @@ class action(Resource):
             subprocess.run(["shutdown", "-a"],  shell=True, stdout=subprocess.PIPE,
                            stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             print("[OPUTPUT] ALL ACTIVE COMMANDS CANCELED\n")
+            print(string)
             return jsonify(string)
 
 
@@ -107,7 +108,7 @@ class action(Resource):
 #         return response
 
 api.add_resource(action, '/action', methods=['POST'])
-api.add_resource(init, '/init', methods=['GET', 'POST'])
+api.add_resource(init, '/init', methods=['POST'])
 if __name__ == '__main__':
     localip = socket.gethostbyname(socket.gethostname())
     port = 5000
@@ -115,8 +116,8 @@ if __name__ == '__main__':
           "#"*15, '\n', '#'*54, sep=None, end=None)
     print(f'\n\n[INFO] Server running on {localip}:{port}\n\n')
     # Development server
-    #app.env = "development"
-    # app.run(debug=False,host=localip,port=port)
+    # app.env = "development"
+    # app.run(debug=True,host=localip,port=port)
 
     # Production server
     http_server = WSGIServer((str(localip), port), app)
