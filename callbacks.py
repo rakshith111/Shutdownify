@@ -39,7 +39,7 @@ class callback():
             # Set screen timeout to 1 min
             subprocess.run(["powercfg", "/Change", "monitor-timeout-ac",  "1"],  shell=False,
                            stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            #Set sleep to never
+            # Set sleep to never
             subprocess.run(["powercfg", "/Change", "standby-timeout-ac",  "0"],  shell=False,
                            stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             # Optimize / Update threading for when canceled
@@ -55,7 +55,7 @@ class callback():
                 self.sleeper_action(True)
 
     def sleep_reset(self):
-        #Stop any threads
+        # Stop any threads
         if self.last_thread_state:
             print(f'{self.t.getName()} canceled')
             self.t.cancel()
@@ -64,10 +64,9 @@ class callback():
         # Set screen timeout to default
         subprocess.run(["powercfg", "/Change", "monitor-timeout-ac",  f"{(self.current_screen_timeout_seconds)//60}"],  shell=False,
                        stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        #Set sleep to default
+        # Set sleep to default
         subprocess.run(["powercfg", "/Change", "standby-timeout-ac",  f"{(self.current_sleep_timeout_seconds)//60}"],  shell=False,
                        stdout=subprocess.PIPE, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-
 
     def submit(self, seconds):
 
