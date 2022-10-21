@@ -209,7 +209,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowIcon(QtGui.QIcon('shutdown.ico'))
         self.setWindowFlag(QtCore.Qt.WindowMaximizeButtonHint, False)
 
-        self.btnlist=[self.ui.mins_5,self.ui.mins_10,self.ui.mins_30,self.ui.mins_60]
+        self.btnlist = [self.ui.mins_5, self.ui.mins_10,
+                        self.ui.mins_30, self.ui.mins_60]
 
         # add listeners to buttons and fields
         self.ui.clear_btn.clicked.connect(self.clear_fields)
@@ -237,7 +238,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.direct_mode.setToolTip("Starts a  timer immediately")
         self.ui.manual_mode.setToolTip(
             "Adds the time to the current timer")
-
 
     def get_numbers(self):
         try:
@@ -274,36 +274,57 @@ class MainWindow(QtWidgets.QMainWindow):
             self.criticalmsg.setIcon(QMessageBox.Critical)
             self.criticalmsg.setInformativeText("Error")
             self.criticalmsg.setWindowTitle("Error")
-            
+
             self.informationmsg = QMessageBox()
             self.informationmsg.setIcon(QMessageBox.Information)
+            self.informationmsg.setGeometry(QtCore.QRect(800, 600, 651, 300))
             self.informationmsg.setInformativeText("Information")
             self.informationmsg.setWindowTitle("Information")
+            # Quickies actions
             if source in self.btnlist:
-                hrs_check,mins_check=(re.search(r'hr', source.text())),re.search(r'mins', source.text())
+                hrs_check, mins_check = (re.search(r'hr', source.text())), re.search(
+                    r'mins', source.text())
                 self.get_numbers()
-                to_add = 0 
-                # if self.ui.direct_mode.isChecked():
-                  
-                if self.ui.manual_mode.isChecked():
-                   
+                to_add = 0
+                if self.ui.direct_mode.isChecked():
                     if hrs_check:
-                        
-                        self.ui.hours_field.setPlainText(str(int(re.search(r'\d+', source.text()).group())+self.hrs_val))
+                        to_add = 60*60
+                        self.call.submit(to_add)
+                        self.informationmsg.setInformativeText(
+                            f"Starting a timer for {to_add//60} mins")
                     if mins_check:
-                        
-                        to_add=int(re.search(r'\d+', source.text()).group())
-                        if to_add==5:
-                            self.ui.minuits_field.setPlainText(str(self.min_val+5))
-                        if to_add==10:
-                            self.ui.minuits_field.setPlainText(str(self.min_val+10))
-                        if to_add==30:
-                            self.ui.minuits_field.setPlainText(str(self.min_val+30))
-                    self.informationmsg.setInformativeText(f"Added {to_add} mins to the timer")
-                    self.informationmsg.exec_()
-               
 
-            #Normal mode 
+                        to_add = int(re.search(r'\d+', source.text()).group())
+                        self.call.submit(to_add*60)
+                        self.informationmsg.setInformativeText(
+                            f"Starting a timer for {to_add} mins")
+                    self.call.sleeper_action(self.ui.timeout_box.isChecked())
+                    self.informationmsg.exec_()
+
+                if self.ui.manual_mode.isChecked():
+
+                    if hrs_check:
+                        to_add = 1
+                        self.ui.hours_field.setPlainText(
+                            str(int(re.search(r'\d+', source.text()).group())+self.hrs_val))
+                        self.informationmsg.setInformativeText(
+                            f"Added {to_add} hr to the timer")
+                    if mins_check:
+                        to_add = int(re.search(r'\d+', source.text()).group())
+                        if to_add == 5:
+                            self.ui.minuits_field.setPlainText(
+                                str(self.min_val+5))
+                        if to_add == 10:
+                            self.ui.minuits_field.setPlainText(
+                                str(self.min_val+10))
+                        if to_add == 30:
+                            self.ui.minuits_field.setPlainText(
+                                str(self.min_val+30))
+                        self.informationmsg.setInformativeText(
+                            f"Added {to_add} mins to the timer")
+                    self.informationmsg.exec_()
+
+            # Normal mode
             self.get_numbers()
             if (self.finalseconds < 20 and (source is self.ui.submit_btn or source is self.ui.extend_btn)):
 
