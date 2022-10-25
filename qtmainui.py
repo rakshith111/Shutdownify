@@ -131,15 +131,9 @@ class MainWindow(QtWidgets.QMainWindow):
                             f"Added {to_add} hr to the timer")
                     if mins_check:
                         to_add = int(re.search(r'\d+', source.text()).group())
-                        if to_add == 5:
-                            self.ui.minuits_field.setPlainText(
-                                str(self.min_val+5))
-                        if to_add == 10:
-                            self.ui.minuits_field.setPlainText(
-                                str(self.min_val+10))
-                        if to_add == 30:
-                            self.ui.minuits_field.setPlainText(
-                                str(self.min_val+30))
+                        self.ui.minuits_field.setPlainText(
+                                str(self.min_val+to_add))
+
                         self.informationmsg.setInformativeText(
                             f"Added {to_add} mins to the timer")
                     self.informationmsg.exec_()
